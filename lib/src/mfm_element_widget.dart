@@ -48,8 +48,9 @@ Widget _defaultInlineCodeBuilder(BuildContext context, String code) =>
     );
 
 Widget _defaultQuoteBuilder(BuildContext context, Widget child) => Padding(
-      padding: const EdgeInsets.only(left: 5),
+      padding: const EdgeInsets.only(left: 5, top: 5),
       child: Container(
+        width: double.infinity,
         decoration: BoxDecoration(
           border: Border(
               left:
@@ -78,7 +79,6 @@ class MfmElementWidget extends StatefulWidget {
 class MfmElementWidgetState extends State<MfmElementWidget> {
   @override
   Widget build(BuildContext context) {
-    final style = DefaultTextStyle.of(context).style;
     return Text.rich(
       TextSpan(
         children: [
@@ -207,9 +207,9 @@ class MfmElementWidgetState extends State<MfmElementWidget> {
                   ))
             else if (node is MfmURL)
               TextSpan(
-                  style: DefaultTextStyle.of(context)
-                      .style
-                      .merge(Mfm.of(context).linkStyle),
+                  style: DefaultTextStyle.of(context).style.merge(
+                      Mfm.of(context).linkStyle ??
+                          TextStyle(color: Theme.of(context).primaryColor)),
                   text: node.value.tight,
                   recognizer: TapGestureRecognizer()
                     ..onTap = () => Mfm.of(context).linkTap?.call(node.value))
