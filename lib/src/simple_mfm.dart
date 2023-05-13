@@ -7,12 +7,14 @@ class SimpleMfm extends StatefulWidget {
   final String mfmText;
   final EmojiBuilder? emojiBuilder;
   final UnicodeEmojiBuilder? unicodeEmojiBuilder;
+  final TextStyle? style;
 
   const SimpleMfm(
     this.mfmText, {
     super.key,
-    required this.emojiBuilder,
-    required this.unicodeEmojiBuilder,
+    this.style,
+    this.emojiBuilder,
+    this.unicodeEmojiBuilder,
   });
 
   @override
@@ -30,22 +32,31 @@ class SimpleMfmScope extends State<SimpleMfm> {
 
   @override
   Widget build(BuildContext context) {
-    return Text.rich(
-      TextSpan(children: [
-        for (final element in parsed)
-          if (element is MfmUnicodeEmoji)
-            WidgetSpan(
-                child:
-                    widget.unicodeEmojiBuilder?.call(context, element.emoji) ??
-                        Text(element.emoji))
-          else if (element is MfmEmojiCode)
-            WidgetSpan(
-                child: widget.emojiBuilder?.call(context, element.name) ??
-                    Text(":${element.name}:"))
-          else if (element is MfmText)
-            TextSpan(text: element.text)
-      ]),
-      textScaleFactor: MediaQuery.of(context).textScaleFactor,
+    return DefaultTextStyle.merge(
+      style: widget.style,
+      child: Text.rich(
+        TextSpan(children: [
+          for (final element in parsed)
+            if (element is MfmUnicodeEmoji)
+              WidgetSpan(
+                  alignment: PlaceholderAlignment.middle,
+                  child: widget.unicodeEmojiBuilder
+                          ?.call(context, element.emoji) ??
+                      Text(element.emoji))
+            else if (element is MfmEmojiCode)
+              WidgetSpan(
+                  alignment: PlaceholderAlignment.middle,
+                  child: widget.emojiBuilder?.call(context, element.name) ??
+                      Text(
+                        "element.name",
+                        style: DefaultTextStyle.of(context).style,
+                      ))
+            else if (element is MfmText)
+              TextSpan(text: element.text)
+        ]),
+        textScaleFactor: MediaQuery.of(context).textScaleFactor,
+        style: widget.style,
+      ),
     );
   }
 }

@@ -13,7 +13,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(title: const Text("MFM Rendering Example")),
-        body: const MfmRenderingExample(),
+        body: MediaQuery(
+            data: MediaQueryData(textScaleFactor: 3),
+            child: const MfmRenderingExample()),
       ),
     );
   }

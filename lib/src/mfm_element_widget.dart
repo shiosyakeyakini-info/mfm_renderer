@@ -40,6 +40,7 @@ Widget _defaultInlineCodeBuilder(BuildContext context, String code) =>
       decoration: const BoxDecoration(color: Colors.black87),
       padding: const EdgeInsets.only(left: 5, right: 5),
       child: Text.rich(
+        textScaleFactor: 1.0,
         textAlign: MfmAlignScope.of(context),
         TextSpan(
             style: const TextStyle(color: Colors.white70, fontFamily: "Monaco"),
@@ -224,6 +225,7 @@ class MfmElementWidgetState extends State<MfmElementWidget> {
         ],
       ),
       textAlign: MfmAlignScope.of(context),
+      textScaleFactor: 1,
     );
   }
 }
