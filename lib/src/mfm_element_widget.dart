@@ -215,7 +215,7 @@ class MfmElementWidgetState extends State<MfmElementWidget> {
                     ..onTap = () => Mfm.of(context).linkTap?.call(node.value))
             else if (node is MfmFn)
               WidgetSpan(
-                  // alignment: PlaceholderAlignment.middle,
+                  alignment: PlaceholderAlignment.middle,
                   child: MfmFnElementWidget(function: node))
             else
               WidgetSpan(

@@ -93,7 +93,22 @@ class Mfm extends InheritedWidget {
 
   @override
   bool updateShouldNotify(covariant Mfm oldWidget) {
-    return oldWidget.mfmText != mfmText;
+    return oldWidget.mfmText != mfmText ||
+        oldWidget.emojiBuilder != emojiBuilder ||
+        oldWidget.unicodeEmojiBuilder != unicodeEmojiBuilder ||
+        oldWidget.codeBlockBuilder != codeBlockBuilder ||
+        oldWidget.inlineCodeBuilder != inlineCodeBuilder ||
+        oldWidget.smallStyleBuilder != smallStyleBuilder ||
+        oldWidget.quoteBuilder != quoteBuilder ||
+        oldWidget.lineHeight != lineHeight ||
+        oldWidget.style != style ||
+        oldWidget.boldStyle != boldStyle ||
+        oldWidget.linkStyle != linkStyle ||
+        oldWidget.serifStyle != serifStyle ||
+        oldWidget.monospaceStyle != monospaceStyle ||
+        oldWidget.mentionTap != mentionTap ||
+        oldWidget.hashtagTap != hashtagTap ||
+        oldWidget.linkTap != linkTap;
   }
 
   static Mfm of(BuildContext context) =>

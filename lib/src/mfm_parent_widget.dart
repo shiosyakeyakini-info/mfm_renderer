@@ -27,7 +27,7 @@ class MfmParentWidgetState extends State<MfmParentWidget> {
           .textTheme
           .bodyMedium!
           .merge(Mfm.of(context).style ?? const TextStyle())
-          .merge(TextStyle(height: Mfm.of(context).lineHeight)),
+          .merge(const TextStyle(height: 0)),
       child: Text.rich(
         WidgetSpan(
           alignment: PlaceholderAlignment.middle,
