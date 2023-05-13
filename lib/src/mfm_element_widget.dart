@@ -78,16 +78,14 @@ class MfmElementWidget extends StatefulWidget {
 class MfmElementWidgetState extends State<MfmElementWidget> {
   @override
   Widget build(BuildContext context) {
-    return RichText(
-      textAlign: MfmAlignScope.of(context),
-      text: TextSpan(
+    final style = DefaultTextStyle.of(context).style;
+    return Text.rich(
+      TextSpan(
         children: [
           for (final node in widget.nodes ?? [])
             if (node is MfmText)
               TextSpan(
-                text: node.text,
-                style: DefaultTextStyle.of(context).style,
-              )
+                  text: node.text, style: DefaultTextStyle.of(context).style)
             else if (node is MfmCenter)
               WidgetSpan(
                 alignment: PlaceholderAlignment.middle,
@@ -217,7 +215,7 @@ class MfmElementWidgetState extends State<MfmElementWidget> {
                     ..onTap = () => Mfm.of(context).linkTap?.call(node.value))
             else if (node is MfmFn)
               WidgetSpan(
-                  alignment: PlaceholderAlignment.middle,
+                  // alignment: PlaceholderAlignment.middle,
                   child: MfmFnElementWidget(function: node))
             else
               WidgetSpan(
@@ -225,6 +223,7 @@ class MfmElementWidgetState extends State<MfmElementWidget> {
                   child: MfmElementWidget(nodes: node.children))
         ],
       ),
+      textAlign: MfmAlignScope.of(context),
     );
   }
 }
