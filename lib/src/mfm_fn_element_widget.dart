@@ -73,8 +73,8 @@ class MfmFnElementWidget extends StatelessWidget {
     }
 
     if (function.name == "scale") {
-      final x = double.tryParse(function.args["x"] ?? "") ?? 1.0;
-      final y = double.tryParse(function.args["y"] ?? "") ?? 1.0;
+      final x = min(double.tryParse(function.args["x"] ?? "") ?? 1.0, 5.0);
+      final y = min(double.tryParse(function.args["y"] ?? "") ?? 1.0, 5.0);
 
       // scale.x=0, scale.y=0は表示しない
       if (x == 0 || y == 0) {
@@ -92,8 +92,7 @@ class MfmFnElementWidget extends StatelessWidget {
       final x = double.tryParse(function.args["x"] ?? "") ?? 0;
       final y = double.tryParse(function.args["y"] ?? "") ?? 0;
       final double defaultFontSize =
-          (DefaultTextStyle.of(context).style.fontSize ?? 22) *
-              MediaQuery.of(context).textScaleFactor;
+          (DefaultTextStyle.of(context).style.fontSize ?? 22);
 
       return Transform.translate(
         offset: Offset(x * defaultFontSize, y * defaultFontSize),

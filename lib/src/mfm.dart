@@ -14,10 +14,13 @@ typedef CodeBlockBuilder = Widget Function(
     BuildContext context, String code, String? language);
 typedef InlineCodeBuilder = Widget Function(BuildContext context, String code);
 typedef QuoteBuilder = Widget Function(BuildContext context, Widget child);
+typedef SearchBuilder = Widget Function(BuildContext context, String query,
+    FutureOr<void> Function(String)? onPressed);
 typedef MentionTapCallBack = FutureOr<void> Function(
     String userName, String? host, String acct);
 typedef HashtagCallback = FutureOr<void> Function(String hashtag);
 typedef LinkTapCallback = FutureOr<void> Function(String url);
+typedef SearchTapCallback = FutureOr<void> Function(String);
 
 class Mfm extends InheritedWidget {
   /// mfm text.
@@ -42,6 +45,9 @@ class Mfm extends InheritedWidget {
 
   /// quote block builder
   final QuoteBuilder? quoteBuilder;
+
+  /// search block builder
+  final SearchBuilder? searchBuilder;
 
   /// line height.
   final double lineHeight;
@@ -70,6 +76,10 @@ class Mfm extends InheritedWidget {
   /// callback when tap link, url.
   final LinkTapCallback? linkTap;
 
+  final SearchTapCallback? searchTap;
+
+  final bool isNyaize;
+
   /// Markup Language for Misskey Sample.
   const Mfm(
     this.mfmText, {
@@ -80,6 +90,7 @@ class Mfm extends InheritedWidget {
     this.inlineCodeBuilder,
     this.smallStyleBuilder,
     this.quoteBuilder,
+    this.searchBuilder,
     this.lineHeight = 1.35,
     this.style,
     this.boldStyle = const TextStyle(fontWeight: FontWeight.bold),
@@ -89,6 +100,8 @@ class Mfm extends InheritedWidget {
     this.mentionTap,
     this.hashtagTap,
     this.linkTap,
+    this.searchTap,
+    this.isNyaize = false,
   }) : super(child: const MfmParentWidget());
 
   @override

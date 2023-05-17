@@ -6,6 +6,28 @@ extension StringExtensions on String {
         .replaceAll(Characters(''), Characters('\u{200B}'))
         .toString();
   }
+
+  String get nyaize {
+    return // ja-JP
+        replaceAll('な', 'にゃ')
+            .replaceAll('ナ', 'ニャ')
+            .replaceAll('ﾅ', 'ﾆｬ')
+            // en-US
+            .replaceAllMapped(RegExp("(?<=[nN])[aA]/"),
+                (x) => x.group(0) == 'A' ? 'YA' : 'ya')
+            .replaceAllMapped(RegExp("(?<=morn)ing"),
+                (x) => x.group(0) == "ING" ? "YAN" : "yan")
+            .replaceAllMapped(RegExp("(?<=every)one"),
+                (x) => x.group(0) == "ONE" ? "NYAN" : "nyan");
+    // TODO: support ko-KR
+    //   .replaceAllMapped(RegExp("[나-낳]"), (match) => )
+    // // ko-KR
+    //     .replace(//g, match => String.fromCharCode(
+    // match.charCodeAt(0)! + '냐'.charCodeAt(0) - '나'.charCodeAt(0),
+    // ))
+    //     .replace(/(다$)|(다(?=\.))|(다(?= ))|(다(?=!))|(다(?=\?))/gm, '다냥')
+    //     .replace(/(야(?=\?))|(야$)|(야(?= ))/gm, '냥');
+  }
 }
 
 extension NullableStringExtensions on String? {

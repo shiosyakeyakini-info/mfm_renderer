@@ -1,9 +1,12 @@
+import 'dart:async';
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:mfm_parser/mfm_parser.dart';
 import 'package:mfm_renderer/mfm_renderer.dart';
 import 'package:mfm_renderer/src/extension/string_extension.dart';
 import 'package:mfm_renderer/src/mfm_align_scope.dart';
+import 'package:mfm_renderer/src/mfm_default_search_widget.dart';
 import 'package:mfm_renderer/src/mfm_fn_element_widget.dart';
 
 Widget _defaultEmojiBuilder(BuildContext context, String emojiName) => Text(
@@ -68,6 +71,10 @@ Widget _defaultQuoteBuilder(BuildContext context, Widget child) => Padding(
       ),
     );
 
+Widget _defaultSearchBuilder(
+        BuildContext context, String query, SearchTapCallback? onPressed) =>
+    MfmDefaultSearch(query: query, callback: onPressed);
+
 class MfmElementWidget extends StatefulWidget {
   final List<MfmNode>? nodes;
 
@@ -86,7 +93,8 @@ class MfmElementWidgetState extends State<MfmElementWidget> {
           for (final node in widget.nodes ?? [])
             if (node is MfmText)
               TextSpan(
-                  text: node.text, style: DefaultTextStyle.of(context).style)
+                  text: Mfm.of(context).isNyaize ? node.text.nyaize : node.text,
+                  style: DefaultTextStyle.of(context).style)
             else if (node is MfmCenter)
               WidgetSpan(
                 alignment: PlaceholderAlignment.middle,
@@ -104,6 +112,10 @@ class MfmElementWidgetState extends State<MfmElementWidget> {
                         _defaultCodeBlockBuilder)
                     .call(context, node.code, node.lang),
               )
+            else if (node is MfmSearch)
+              WidgetSpan(
+                  child: (Mfm.of(context).searchBuilder ?? _defaultSearchBuilder)
+                      .call(context, node.query, Mfm.of(context).searchTap))
             else if (node is MfmEmojiCode)
               WidgetSpan(
                 alignment: PlaceholderAlignment.middle,
@@ -113,8 +125,7 @@ class MfmElementWidgetState extends State<MfmElementWidget> {
             else if (node is MfmUnicodeEmoji)
               WidgetSpan(
                   alignment: PlaceholderAlignment.middle,
-                  child: (Mfm.of(context).unicodeEmojiBuilder ??
-                          _defaultUnicodeEmojiBuilder)
+                  child: (Mfm.of(context).unicodeEmojiBuilder ?? _defaultUnicodeEmojiBuilder)
                       .call(context, node.emoji))
             else if (node is MfmBold)
               WidgetSpan(
