@@ -97,7 +97,8 @@ class MfmElementWidgetState extends State<MfmElementWidget> {
                   style: DefaultTextStyle.of(context).style)
             else if (node is MfmCenter)
               WidgetSpan(
-                alignment: PlaceholderAlignment.middle,
+                alignment: PlaceholderAlignment.baseline,
+                baseline: TextBaseline.alphabetic,
                 child: SizedBox(
                   width: double.infinity,
                   child: MfmAlignScope(
@@ -107,7 +108,8 @@ class MfmElementWidgetState extends State<MfmElementWidget> {
               )
             else if (node is MfmCodeBlock)
               WidgetSpan(
-                alignment: PlaceholderAlignment.middle,
+                alignment: PlaceholderAlignment.baseline,
+                baseline: TextBaseline.alphabetic,
                 child: (Mfm.of(context).codeBlockBuilder ??
                         _defaultCodeBlockBuilder)
                     .call(context, node.code, node.lang),
@@ -129,7 +131,8 @@ class MfmElementWidgetState extends State<MfmElementWidget> {
                       .call(context, node.emoji))
             else if (node is MfmBold)
               WidgetSpan(
-                alignment: PlaceholderAlignment.middle,
+                alignment: PlaceholderAlignment.baseline,
+                baseline: TextBaseline.alphabetic,
                 child: DefaultTextStyle.merge(
                   style: Mfm.of(context).boldStyle,
                   child: MfmElementWidget(nodes: node.children),
@@ -137,7 +140,8 @@ class MfmElementWidgetState extends State<MfmElementWidget> {
               )
             else if (node is MfmSmall)
               WidgetSpan(
-                alignment: PlaceholderAlignment.middle,
+                alignment: PlaceholderAlignment.baseline,
+                baseline: TextBaseline.alphabetic,
                 child: DefaultTextStyle.merge(
                   style: (Mfm.of(context).smallStyleBuilder ??
                           _defaultSmallStyleBuilder)
@@ -148,14 +152,16 @@ class MfmElementWidgetState extends State<MfmElementWidget> {
               )
             else if (node is MfmItalic)
               WidgetSpan(
-                  alignment: PlaceholderAlignment.middle,
+                  alignment: PlaceholderAlignment.baseline,
+                  baseline: TextBaseline.alphabetic,
                   child: DefaultTextStyle.merge(
                     style: const TextStyle(fontStyle: FontStyle.italic),
                     child: MfmElementWidget(nodes: node.children),
                   ))
             else if (node is MfmStrike)
               WidgetSpan(
-                  alignment: PlaceholderAlignment.middle,
+                  alignment: PlaceholderAlignment.baseline,
+                  baseline: TextBaseline.alphabetic,
                   child: DefaultTextStyle.merge(
                     style:
                         const TextStyle(decoration: TextDecoration.lineThrough),
@@ -163,20 +169,23 @@ class MfmElementWidgetState extends State<MfmElementWidget> {
                   ))
             else if (node is MfmPlain)
               WidgetSpan(
-                alignment: PlaceholderAlignment.middle,
+                alignment: PlaceholderAlignment.baseline,
+                baseline: TextBaseline.alphabetic,
                 child:
                     Text(node.text, style: DefaultTextStyle.of(context).style),
               )
             else if (node is MfmInlineCode)
               WidgetSpan(
-                alignment: PlaceholderAlignment.middle,
+                alignment: PlaceholderAlignment.baseline,
+                baseline: TextBaseline.alphabetic,
                 child: (Mfm.of(context).inlineCodeBuilder ??
                         _defaultInlineCodeBuilder)
                     .call(context, node.code),
               )
             else if (node is MfmQuote)
               WidgetSpan(
-                alignment: PlaceholderAlignment.middle,
+                alignment: PlaceholderAlignment.baseline,
+                baseline: TextBaseline.alphabetic,
                 child:
                     (Mfm.of(context).quoteBuilder ?? _defaultQuoteBuilder).call(
                   context,
@@ -207,7 +216,8 @@ class MfmElementWidgetState extends State<MfmElementWidget> {
                         () => Mfm.of(context).hashtagTap?.call(node.hashTag))
             else if (node is MfmLink)
               WidgetSpan(
-                  alignment: PlaceholderAlignment.middle,
+                  alignment: PlaceholderAlignment.baseline,
+                  baseline: TextBaseline.alphabetic,
                   child: DefaultTextStyle.merge(
                     style: DefaultTextStyle.of(context).style.merge(
                           Mfm.of(context).linkStyle ??
@@ -227,11 +237,13 @@ class MfmElementWidgetState extends State<MfmElementWidget> {
                     ..onTap = () => Mfm.of(context).linkTap?.call(node.value))
             else if (node is MfmFn)
               WidgetSpan(
-                  alignment: PlaceholderAlignment.middle,
+                  alignment: PlaceholderAlignment.baseline,
+                  baseline: TextBaseline.alphabetic,
                   child: MfmFnElementWidget(function: node))
             else
               WidgetSpan(
-                  alignment: PlaceholderAlignment.middle,
+                  alignment: PlaceholderAlignment.baseline,
+                  baseline: TextBaseline.alphabetic,
                   child: MfmElementWidget(nodes: node.children))
         ],
       ),
