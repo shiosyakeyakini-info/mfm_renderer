@@ -9,13 +9,19 @@ import 'package:mfm_renderer/src/mfm_align_scope.dart';
 import 'package:mfm_renderer/src/mfm_default_search_widget.dart';
 import 'package:mfm_renderer/src/mfm_fn_element_widget.dart';
 
-Widget _defaultEmojiBuilder(BuildContext context, String emojiName) => Text(
-      ":$emojiName:",
-      style: TextStyle(color: Theme.of(context).primaryColor),
+Widget _defaultEmojiBuilder(BuildContext context, String emojiName) =>
+    Text.rich(
+      TextSpan(text: ":$emojiName:", style: DefaultTextStyle.of(context).style),
+      textAlign: MfmAlignScope.of(context),
+      textScaleFactor: 1,
     );
 
 Widget _defaultUnicodeEmojiBuilder(BuildContext context, String emoji) =>
-    Text(emoji);
+    Text.rich(
+      TextSpan(text: emoji, style: DefaultTextStyle.of(context).style),
+      textAlign: MfmAlignScope.of(context),
+      textScaleFactor: 1,
+    );
 
 TextStyle _defaultSmallStyleBuilder(BuildContext context, double? fontSize) =>
     TextStyle(
