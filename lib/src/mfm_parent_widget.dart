@@ -29,10 +29,14 @@ class MfmParentWidgetState extends State<MfmParentWidget> {
           .merge(Mfm.of(context).style ?? const TextStyle())
           .merge(const TextStyle(height: 0)),
       child: Text.rich(
-        WidgetSpan(
-          alignment: PlaceholderAlignment.middle,
-          child: MfmElementWidget(nodes: actualNode),
-        ),
+        TextSpan(children: [
+          ...Mfm.of(context).prefixSpan,
+          WidgetSpan(
+            alignment: PlaceholderAlignment.middle,
+            child: MfmElementWidget(nodes: actualNode),
+          ),
+          ...Mfm.of(context).suffixSpan,
+        ]),
         textScaleFactor: MediaQuery.of(context).textScaleFactor,
         strutStyle: StrutStyle(height: Mfm.of(context).lineHeight),
       ),

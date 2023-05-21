@@ -8,6 +8,8 @@ class SimpleMfm extends StatefulWidget {
   final EmojiBuilder? emojiBuilder;
   final UnicodeEmojiBuilder? unicodeEmojiBuilder;
   final TextStyle? style;
+  final List<InlineSpan> suffixSpan;
+  final List<InlineSpan> prefixSpan;
 
   const SimpleMfm(
     this.mfmText, {
@@ -15,6 +17,8 @@ class SimpleMfm extends StatefulWidget {
     this.style,
     this.emojiBuilder,
     this.unicodeEmojiBuilder,
+    this.suffixSpan = const [],
+    this.prefixSpan = const [],
   });
 
   @override
@@ -36,6 +40,7 @@ class SimpleMfmScope extends State<SimpleMfm> {
       style: widget.style,
       child: Text.rich(
         TextSpan(children: [
+          ...widget.prefixSpan,
           for (final element in parsed)
             if (element is MfmUnicodeEmoji)
               WidgetSpan(
@@ -52,7 +57,8 @@ class SimpleMfmScope extends State<SimpleMfm> {
                         style: DefaultTextStyle.of(context).style,
                       ))
             else if (element is MfmText)
-              TextSpan(text: element.text)
+              TextSpan(text: element.text),
+          ...widget.suffixSpan,
         ]),
         textScaleFactor: MediaQuery.of(context).textScaleFactor,
         style: widget.style,

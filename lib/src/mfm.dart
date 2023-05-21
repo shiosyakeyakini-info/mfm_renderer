@@ -78,7 +78,14 @@ class Mfm extends InheritedWidget {
 
   final SearchTapCallback? searchTap;
 
+  /// apply text nyaize
   final bool isNyaize;
+
+  /// add prefix span
+  final List<InlineSpan> prefixSpan;
+
+  /// add suffix span
+  final List<InlineSpan> suffixSpan;
 
   /// Markup Language for Misskey Sample.
   const Mfm(
@@ -102,6 +109,8 @@ class Mfm extends InheritedWidget {
     this.linkTap,
     this.searchTap,
     this.isNyaize = false,
+    this.prefixSpan = const [],
+    this.suffixSpan = const [],
   }) : super(child: const MfmParentWidget());
 
   @override
