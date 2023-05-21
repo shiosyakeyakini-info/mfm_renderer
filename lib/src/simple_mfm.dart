@@ -35,6 +35,13 @@ class SimpleMfmScope extends State<SimpleMfm> {
   }
 
   @override
+  void didUpdateWidget(covariant SimpleMfm oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    parsed = const MfmParser().parseSimple(widget.mfmText);
+  }
+
+  @override
   Widget build(BuildContext context) {
     return DefaultTextStyle.merge(
       style: widget.style,
