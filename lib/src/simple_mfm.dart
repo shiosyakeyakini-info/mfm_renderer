@@ -50,11 +50,9 @@ class SimpleMfmScope extends State<SimpleMfm> {
           ...widget.prefixSpan,
           for (final element in parsed)
             if (element is MfmUnicodeEmoji)
-              WidgetSpan(
-                  alignment: PlaceholderAlignment.middle,
-                  child: widget.unicodeEmojiBuilder
-                          ?.call(context, element.emoji) ??
-                      Text(element.emoji))
+              widget.unicodeEmojiBuilder
+                      ?.call(context, element.emoji, widget.style) ??
+                  TextSpan(text: element.emoji)
             else if (element is MfmEmojiCode)
               WidgetSpan(
                   alignment: PlaceholderAlignment.middle,

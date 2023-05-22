@@ -22,24 +22,26 @@ class MfmParentWidgetState extends State<MfmParentWidget> {
       actualNode = nodes!;
     }
 
-    return DefaultTextStyle(
-      style: Theme.of(context)
-          .textTheme
-          .bodyMedium!
-          .merge(Mfm.of(context).style ?? const TextStyle())
-          .merge(const TextStyle(height: 0)),
-      child: Text.rich(
-        TextSpan(children: [
-          ...Mfm.of(context).prefixSpan,
-          WidgetSpan(
-            alignment: PlaceholderAlignment.middle,
-            child: MfmElementWidget(nodes: actualNode),
+    final style = Theme.of(context)
+        .textTheme
+        .bodyMedium!
+        .merge(Mfm.of(context).style ?? const TextStyle())
+        .merge(const TextStyle(height: 0));
+
+    return Text.rich(
+      TextSpan(children: [
+        ...Mfm.of(context).prefixSpan,
+        WidgetSpan(
+          alignment: PlaceholderAlignment.middle,
+          child: MfmElementWidget(
+            nodes: actualNode,
+            style: style,
           ),
-          ...Mfm.of(context).suffixSpan,
-        ]),
-        textScaleFactor: MediaQuery.of(context).textScaleFactor,
-        strutStyle: StrutStyle(height: Mfm.of(context).lineHeight),
-      ),
+        ),
+        ...Mfm.of(context).suffixSpan,
+      ]),
+      textScaleFactor: MediaQuery.of(context).textScaleFactor,
+      strutStyle: StrutStyle(height: Mfm.of(context).lineHeight),
     );
   }
 }

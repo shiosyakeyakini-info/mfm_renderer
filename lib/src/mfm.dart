@@ -6,8 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:mfm_renderer/src/mfm_parent_widget.dart';
 
 typedef EmojiBuilder = Widget Function(BuildContext context, String emojiName);
-typedef UnicodeEmojiBuilder = Widget Function(
-    BuildContext context, String emoji);
+typedef UnicodeEmojiBuilder = InlineSpan Function(
+    BuildContext context, String emoji, TextStyle? style);
 typedef SmallStyleBuilder = TextStyle Function(
     BuildContext context, double? fontSize);
 typedef CodeBlockBuilder = Widget Function(
