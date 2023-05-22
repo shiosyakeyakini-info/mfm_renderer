@@ -5,7 +5,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:mfm_renderer/src/mfm_parent_widget.dart';
 
-typedef EmojiBuilder = Widget Function(BuildContext context, String emojiName);
+typedef EmojiBuilder = Widget Function(
+    BuildContext context, String emojiName, TextStyle style);
 typedef UnicodeEmojiBuilder = InlineSpan Function(
     BuildContext context, String emoji, TextStyle? style);
 typedef SmallStyleBuilder = TextStyle Function(

@@ -6,10 +6,10 @@ import 'package:mfm_renderer/src/extension/string_extension.dart';
 import 'package:mfm_renderer/src/mfm_align_scope.dart';
 import 'package:mfm_renderer/src/mfm_default_search_widget.dart';
 import 'package:mfm_renderer/src/mfm_element_widget.dart';
-import 'package:mfm_renderer/src/mfm_fn_element_widget.dart';
 import 'package:mfm_renderer/src/mfm_fn_span.dart';
 
-Widget _defaultEmojiBuilder(BuildContext context, String emojiName) =>
+Widget _defaultEmojiBuilder(
+        BuildContext context, String emojiName, TextStyle style) =>
     Text.rich(
       TextSpan(text: ":$emojiName:", style: DefaultTextStyle.of(context).style),
       textAlign: MfmAlignScope.of(context),
@@ -128,7 +128,8 @@ class MfmInlineSpan extends TextSpan {
             WidgetSpan(
               alignment: PlaceholderAlignment.middle,
               child: (Mfm.of(context).emojiBuilder ?? _defaultEmojiBuilder)
-                  .call(context, node.name),
+                  .call(context, node.name,
+                      style ?? DefaultTextStyle.of(context).style),
             )
           else if (node is MfmUnicodeEmoji)
             (Mfm.of(context).unicodeEmojiBuilder ?? _defaultUnicodeEmojiBuilder)

@@ -28,20 +28,23 @@ class MfmParentWidgetState extends State<MfmParentWidget> {
         .merge(Mfm.of(context).style ?? const TextStyle())
         .merge(const TextStyle(height: 0));
 
-    return Text.rich(
-      TextSpan(children: [
-        ...Mfm.of(context).prefixSpan,
-        WidgetSpan(
-          alignment: PlaceholderAlignment.middle,
-          child: MfmElementWidget(
-            nodes: actualNode,
-            style: style,
+    return DefaultTextStyle.merge(
+      style: style,
+      child: Text.rich(
+        TextSpan(style: style, children: [
+          ...Mfm.of(context).prefixSpan,
+          WidgetSpan(
+            alignment: PlaceholderAlignment.middle,
+            child: MfmElementWidget(
+              nodes: actualNode,
+              style: style,
+            ),
           ),
-        ),
-        ...Mfm.of(context).suffixSpan,
-      ]),
-      textScaleFactor: MediaQuery.of(context).textScaleFactor,
-      strutStyle: StrutStyle(height: Mfm.of(context).lineHeight),
+          ...Mfm.of(context).suffixSpan,
+        ]),
+        textScaleFactor: MediaQuery.of(context).textScaleFactor,
+        strutStyle: StrutStyle(height: Mfm.of(context).lineHeight),
+      ),
     );
   }
 }
