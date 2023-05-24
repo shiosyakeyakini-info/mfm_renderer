@@ -8,10 +8,9 @@ import 'package:mfm_renderer/src/mfm_default_search_widget.dart';
 import 'package:mfm_renderer/src/mfm_element_widget.dart';
 import 'package:mfm_renderer/src/mfm_fn_span.dart';
 
-Widget _defaultEmojiBuilder(
-        BuildContext context, String emojiName, TextStyle style) =>
+Widget _defaultEmojiBuilder(BuildContext context, String emojiName) =>
     Text.rich(
-      TextSpan(text: ":$emojiName:", style: DefaultTextStyle.of(context).style),
+      TextSpan(text: ":$emojiName:"),
       textAlign: MfmAlignScope.of(context),
       textScaleFactor: 1,
     );
@@ -82,161 +81,167 @@ class MfmInlineSpan extends TextSpan {
   final List<MfmNode>? nodes;
   final BuildContext context;
 
-  const MfmInlineSpan({
+  late final List<InlineSpan> _children;
+
+  MfmInlineSpan({
     required this.nodes,
     required super.style,
     required this.context,
     super.recognizer,
-  });
+  }) {
+    _children = buildChildren();
+  }
 
-  @override
-  List<InlineSpan> get children => [
-        for (final node in nodes ?? [])
-          if (node is MfmText)
-            TextSpan(
-              text: Mfm.of(context).isNyaize
-                  ? node.text.nyaize
-                  : node.text, /*style: style*/
-            )
-          else if (node is MfmCenter)
-            WidgetSpan(
-              alignment: PlaceholderAlignment.baseline,
-              baseline: TextBaseline.alphabetic,
-              child: SizedBox(
-                width: double.infinity,
-                child: MfmAlignScope(
-                    align: TextAlign.center,
-                    child: MfmElementWidget(
-                      nodes: node.children,
-                      style: style,
-                    )),
-              ),
-            )
-          else if (node is MfmCodeBlock)
-            WidgetSpan(
-              alignment: PlaceholderAlignment.baseline,
-              baseline: TextBaseline.alphabetic,
-              child:
-                  (Mfm.of(context).codeBlockBuilder ?? _defaultCodeBlockBuilder)
-                      .call(context, node.code, node.lang),
-            )
-          else if (node is MfmSearch)
-            WidgetSpan(
-                child: (Mfm.of(context).searchBuilder ?? _defaultSearchBuilder)
-                    .call(context, node.query, Mfm.of(context).searchTap))
-          else if (node is MfmEmojiCode)
-            WidgetSpan(
+  List<InlineSpan> buildChildren() {
+    return [
+      for (final node in nodes ?? [])
+        if (node is MfmText)
+          TextSpan(
+            text: Mfm.of(context).isNyaize
+                ? node.text.nyaize
+                : node.text, /*style: style*/
+          )
+        else if (node is MfmCenter)
+          WidgetSpan(
+            alignment: PlaceholderAlignment.baseline,
+            baseline: TextBaseline.alphabetic,
+            child: SizedBox(
+              width: double.infinity,
+              child: MfmAlignScope(
+                  align: TextAlign.center,
+                  child: MfmElementWidget(
+                    nodes: node.children,
+                    style: style,
+                  )),
+            ),
+          )
+        else if (node is MfmCodeBlock)
+          WidgetSpan(
+            alignment: PlaceholderAlignment.baseline,
+            baseline: TextBaseline.alphabetic,
+            child:
+                (Mfm.of(context).codeBlockBuilder ?? _defaultCodeBlockBuilder)
+                    .call(context, node.code, node.lang),
+          )
+        else if (node is MfmSearch)
+          WidgetSpan(
+              child: (Mfm.of(context).searchBuilder ?? _defaultSearchBuilder)
+                  .call(context, node.query, Mfm.of(context).searchTap))
+        else if (node is MfmEmojiCode)
+          WidgetSpan(
               alignment: PlaceholderAlignment.middle,
-              child: (Mfm.of(context).emojiBuilder ?? _defaultEmojiBuilder)
-                  .call(context, node.name,
-                      style ?? DefaultTextStyle.of(context).style),
-            )
-          else if (node is MfmUnicodeEmoji)
-            (Mfm.of(context).unicodeEmojiBuilder ?? _defaultUnicodeEmojiBuilder)
-                .call(context, node.emoji, style)
-          else if (node is MfmBold)
-            MfmInlineSpan(
-              context: context,
-              style: style?.merge(Mfm.of(context).boldStyle),
-              nodes: node.children,
-            )
-          else if (node is MfmSmall)
-            MfmInlineSpan(
-              context: context,
-              style: style?.merge((Mfm.of(context).smallStyleBuilder ??
-                      _defaultSmallStyleBuilder)
-                  .call(context, DefaultTextStyle.of(context).style.fontSize)),
-              nodes: node.children,
-            )
-          else if (node is MfmItalic)
-            MfmInlineSpan(
-              context: context,
-              style: style?.merge(const TextStyle(fontStyle: FontStyle.italic)),
-              nodes: node.children,
-            )
-          else if (node is MfmStrike)
-            MfmInlineSpan(
-              context: context,
-              style: style?.merge(
-                  const TextStyle(decoration: TextDecoration.lineThrough)),
-              nodes: node.children,
-            )
-          else if (node is MfmPlain)
-            TextSpan(text: node.text, style: style)
-          else if (node is MfmInlineCode)
-            WidgetSpan(
-              alignment: PlaceholderAlignment.baseline,
-              baseline: TextBaseline.alphabetic,
-              child: (Mfm.of(context).inlineCodeBuilder ??
-                      _defaultInlineCodeBuilder)
-                  .call(context, node.code),
-            )
-          else if (node is MfmQuote)
-            WidgetSpan(
-              alignment: PlaceholderAlignment.baseline,
-              baseline: TextBaseline.alphabetic,
-              child:
-                  (Mfm.of(context).quoteBuilder ?? _defaultQuoteBuilder).call(
-                context,
-                MfmElementWidget(
-                  nodes: node.children,
-                  style: style,
-                ),
+              child: DefaultTextStyle(
+                  style: style ?? const TextStyle(),
+                  child: (Mfm.of(context).emojiBuilder ?? _defaultEmojiBuilder)
+                      .call(context, node.name)))
+        else if (node is MfmUnicodeEmoji)
+          (Mfm.of(context).unicodeEmojiBuilder ?? _defaultUnicodeEmojiBuilder)
+              .call(context, node.emoji, style)
+        else if (node is MfmBold)
+          MfmInlineSpan(
+            context: context,
+            style: style?.merge(Mfm.of(context).boldStyle),
+            nodes: node.children,
+          )
+        else if (node is MfmSmall)
+          MfmInlineSpan(
+            context: context,
+            style: style?.merge((Mfm.of(context).smallStyleBuilder ??
+                    _defaultSmallStyleBuilder)
+                .call(context, DefaultTextStyle.of(context).style.fontSize)),
+            nodes: node.children,
+          )
+        else if (node is MfmItalic)
+          MfmInlineSpan(
+            context: context,
+            style: style?.merge(const TextStyle(fontStyle: FontStyle.italic)),
+            nodes: node.children,
+          )
+        else if (node is MfmStrike)
+          MfmInlineSpan(
+            context: context,
+            style: style?.merge(
+                const TextStyle(decoration: TextDecoration.lineThrough)),
+            nodes: node.children,
+          )
+        else if (node is MfmPlain)
+          TextSpan(text: node.text, style: style)
+        else if (node is MfmInlineCode)
+          WidgetSpan(
+            alignment: PlaceholderAlignment.baseline,
+            baseline: TextBaseline.alphabetic,
+            child:
+                (Mfm.of(context).inlineCodeBuilder ?? _defaultInlineCodeBuilder)
+                    .call(context, node.code),
+          )
+        else if (node is MfmQuote)
+          WidgetSpan(
+            alignment: PlaceholderAlignment.baseline,
+            baseline: TextBaseline.alphabetic,
+            child: (Mfm.of(context).quoteBuilder ?? _defaultQuoteBuilder).call(
+              context,
+              MfmElementWidget(
+                nodes: node.children,
+                style: style,
               ),
-            )
-          else if (node is MfmMention)
-            TextSpan(
+            ),
+          )
+        else if (node is MfmMention)
+          TextSpan(
+            style: DefaultTextStyle.of(context).style.merge(
+                  Mfm.of(context).linkStyle ??
+                      TextStyle(color: Theme.of(context).primaryColor),
+                ),
+            text: node.acct.tight,
+            recognizer: TapGestureRecognizer()
+              ..onTap = () => Mfm.of(context)
+                  .mentionTap
+                  ?.call(node.username, node.host, node.acct),
+          )
+        else if (node is MfmHashTag)
+          TextSpan(
               style: DefaultTextStyle.of(context).style.merge(
                     Mfm.of(context).linkStyle ??
                         TextStyle(color: Theme.of(context).primaryColor),
                   ),
-              text: node.acct.tight,
+              text: "#${node.hashTag.tight}",
               recognizer: TapGestureRecognizer()
-                ..onTap = () => Mfm.of(context)
-                    .mentionTap
-                    ?.call(node.username, node.host, node.acct),
-            )
-          else if (node is MfmHashTag)
-            TextSpan(
-                style: DefaultTextStyle.of(context).style.merge(
-                      Mfm.of(context).linkStyle ??
-                          TextStyle(color: Theme.of(context).primaryColor),
-                    ),
-                text: "#${node.hashTag.tight}",
-                recognizer: TapGestureRecognizer()
-                  ..onTap =
-                      () => Mfm.of(context).hashtagTap?.call(node.hashTag))
-          else if (node is MfmLink)
-            MfmInlineSpan(
-                context: context,
-                style: style?.merge(DefaultTextStyle.of(context).style.merge(
-                      Mfm.of(context).linkStyle ??
-                          TextStyle(color: Theme.of(context).primaryColor),
-                    )),
-                recognizer: TapGestureRecognizer()
-                  ..onTap = () => Mfm.of(context).linkTap?.call(node.url),
-                nodes: node.children)
-          //   child: GestureDetector(
-          //       onTap: () => Mfm.of(context).linkTap?.call(node.url),
-          //       child: MfmElementWidget(nodes: node.children)),
-          // ))
-          else if (node is MfmURL)
-            TextSpan(
-                style: DefaultTextStyle.of(context).style.merge(
+                ..onTap = () => Mfm.of(context).hashtagTap?.call(node.hashTag))
+        else if (node is MfmLink)
+          MfmInlineSpan(
+              context: context,
+              style: style?.merge(DefaultTextStyle.of(context).style.merge(
                     Mfm.of(context).linkStyle ??
-                        TextStyle(color: Theme.of(context).primaryColor)),
-                text: node.value.tight,
-                recognizer: TapGestureRecognizer()
-                  ..onTap = () => Mfm.of(context).linkTap?.call(node.value))
-          else if (node is MfmFn)
-            MfmFnSpan(context: context, style: style, function: node)
-          else
-            WidgetSpan(
-                alignment: PlaceholderAlignment.baseline,
-                baseline: TextBaseline.alphabetic,
-                child: MfmElementWidget(
-                  nodes: node.children,
-                  style: style,
-                ))
-      ];
+                        TextStyle(color: Theme.of(context).primaryColor),
+                  )),
+              recognizer: TapGestureRecognizer()
+                ..onTap = () => Mfm.of(context).linkTap?.call(node.url),
+              nodes: node.children)
+        //   child: GestureDetector(
+        //       onTap: () => Mfm.of(context).linkTap?.call(node.url),
+        //       child: MfmElementWidget(nodes: node.children)),
+        // ))
+        else if (node is MfmURL)
+          TextSpan(
+              style: DefaultTextStyle.of(context).style.merge(
+                  Mfm.of(context).linkStyle ??
+                      TextStyle(color: Theme.of(context).primaryColor)),
+              text: node.value.tight,
+              recognizer: TapGestureRecognizer()
+                ..onTap = () => Mfm.of(context).linkTap?.call(node.value))
+        else if (node is MfmFn)
+          MfmFnSpan(context: context, style: style, function: node)
+        else
+          WidgetSpan(
+              alignment: PlaceholderAlignment.baseline,
+              baseline: TextBaseline.alphabetic,
+              child: MfmElementWidget(
+                nodes: node.children,
+                style: style,
+              ))
+    ];
+  }
+
+  @override
+  List<InlineSpan> get children => _children;
 }

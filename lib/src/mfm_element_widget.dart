@@ -16,15 +16,21 @@ class MfmElementWidget extends StatefulWidget {
 }
 
 class MfmElementWidgetState extends State<MfmElementWidget> {
+  MfmInlineSpan? inlineSpan;
+
+  @override
+  void didUpdateWidget(covariant MfmElementWidget oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    inlineSpan = null;
+  }
+
   @override
   Widget build(BuildContext context) {
+    inlineSpan ??= MfmInlineSpan(
+        nodes: widget.nodes ?? [], style: widget.style, context: context);
+
     return Text.rich(
-      TextSpan(
-        children: [
-          MfmInlineSpan(
-              nodes: widget.nodes ?? [], style: widget.style, context: context)
-        ],
-      ),
+      inlineSpan!,
       textAlign: MfmAlignScope.of(context),
       textScaleFactor: 1,
     );

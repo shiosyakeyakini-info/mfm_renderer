@@ -56,8 +56,7 @@ class SimpleMfmScope extends State<SimpleMfm> {
             else if (element is MfmEmojiCode)
               WidgetSpan(
                   alignment: PlaceholderAlignment.middle,
-                  child: widget.emojiBuilder?.call(context, element.name,
-                          widget.style ?? DefaultTextStyle.of(context).style) ??
+                  child: widget.emojiBuilder?.call(context, element.name) ??
                       Text(
                         "element.name",
                         style: DefaultTextStyle.of(context).style,
