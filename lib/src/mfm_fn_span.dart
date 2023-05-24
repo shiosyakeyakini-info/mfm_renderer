@@ -26,6 +26,7 @@ class MfmFnSpan extends TextSpan {
         MfmInlineSpan(
             context: context,
             style: style?.merge(TextStyle(
+                height: 0,
                 fontSize:
                     (DefaultTextStyle.of(context).style.fontSize ?? 22) * 2)),
             nodes: function.children)
@@ -36,6 +37,7 @@ class MfmFnSpan extends TextSpan {
         MfmInlineSpan(
             context: context,
             style: style?.merge(TextStyle(
+                height: 0,
                 fontSize:
                     (DefaultTextStyle.of(context).style.fontSize ?? 22) * 3)),
             nodes: function.children)
@@ -47,6 +49,7 @@ class MfmFnSpan extends TextSpan {
         MfmInlineSpan(
             context: context,
             style: style?.merge(TextStyle(
+                height: 0,
                 fontSize:
                     (DefaultTextStyle.of(context).style.fontSize ?? 22) * 4)),
             nodes: function.children)
@@ -66,14 +69,15 @@ class MfmFnSpan extends TextSpan {
     if (function.name == "bg") {
       return [
         WidgetSpan(
+            alignment: PlaceholderAlignment.middle,
             child: Container(
-          decoration:
-              BoxDecoration(color: (function.args["color"] as String?).color),
-          child: MfmElementWidget(
-            nodes: function.children,
-            style: style,
-          ),
-        ))
+              decoration: BoxDecoration(
+                  color: (function.args["color"] as String?).color),
+              child: MfmElementWidget(
+                nodes: function.children,
+                style: style,
+              ),
+            ))
       ];
     }
 
@@ -95,6 +99,7 @@ class MfmFnSpan extends TextSpan {
       final deg = double.tryParse(function.args["deg"] ?? "") ?? 90.0;
       return [
         WidgetSpan(
+          alignment: PlaceholderAlignment.middle,
           child: Transform.rotate(
               angle: deg * pi / 180,
               child: MfmElementWidget(
@@ -116,6 +121,7 @@ class MfmFnSpan extends TextSpan {
 
       return [
         WidgetSpan(
+          alignment: PlaceholderAlignment.middle,
           child: Transform.scale(
             scaleX: x,
             scaleY: y,
@@ -136,6 +142,7 @@ class MfmFnSpan extends TextSpan {
 
       return [
         WidgetSpan(
+          alignment: PlaceholderAlignment.middle,
           child: Transform.translate(
             offset: Offset(x * defaultFontSize, y * defaultFontSize),
             child: MfmElementWidget(
@@ -161,11 +168,12 @@ class MfmFnSpan extends TextSpan {
     if (function.name == "blur") {
       return [
         WidgetSpan(
+            alignment: PlaceholderAlignment.middle,
             child: MfmFnBlur(
                 child: MfmElementWidget(
-          nodes: function.children,
-          style: style,
-        )))
+              nodes: function.children,
+              style: style,
+            )))
       ];
     }
 
@@ -176,6 +184,7 @@ class MfmFnSpan extends TextSpan {
       if ((!isVertical && !isHorizontal) || (isHorizontal && !isVertical)) {
         return [
           WidgetSpan(
+            alignment: PlaceholderAlignment.middle,
             child: Transform(
               transform: Matrix4.rotationY(pi),
               alignment: Alignment.center,
@@ -191,6 +200,7 @@ class MfmFnSpan extends TextSpan {
       if (isVertical && !isHorizontal) {
         return [
           WidgetSpan(
+            alignment: PlaceholderAlignment.middle,
             child: Transform(
               transform: Matrix4.rotationX(pi),
               alignment: Alignment.center,
@@ -205,6 +215,7 @@ class MfmFnSpan extends TextSpan {
 
       return [
         WidgetSpan(
+          alignment: PlaceholderAlignment.middle,
           child: Transform(
             transform: Matrix4.rotationZ(pi),
             alignment: Alignment.center,

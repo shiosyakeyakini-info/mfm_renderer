@@ -130,6 +130,7 @@ class MfmInlineSpan extends TextSpan {
         else if (node is MfmEmojiCode)
           WidgetSpan(
               alignment: PlaceholderAlignment.middle,
+              baseline: TextBaseline.ideographic,
               child: DefaultTextStyle(
                   style: style ?? const TextStyle(),
                   child: (Mfm.of(context).emojiBuilder ?? _defaultEmojiBuilder)
