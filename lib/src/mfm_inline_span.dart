@@ -209,19 +209,21 @@ class MfmInlineSpan extends TextSpan {
               recognizer: TapGestureRecognizer()
                 ..onTap = () => Mfm.of(context).hashtagTap?.call(node.hashTag))
         else if (node is MfmLink)
-          MfmInlineSpan(
-              context: context,
-              style: style?.merge(DefaultTextStyle.of(context).style.merge(
-                    Mfm.of(context).linkStyle ??
-                        TextStyle(color: Theme.of(context).primaryColor),
-                  )),
-              recognizer: TapGestureRecognizer()
-                ..onTap = () => Mfm.of(context).linkTap?.call(node.url),
-              nodes: node.children)
-        //   child: GestureDetector(
-        //       onTap: () => Mfm.of(context).linkTap?.call(node.url),
-        //       child: MfmElementWidget(nodes: node.children)),
-        // ))
+          WidgetSpan(
+            alignment: PlaceholderAlignment.baseline,
+            baseline: TextBaseline.alphabetic,
+            child: GestureDetector(
+              onTap: () => Mfm.of(context).linkTap?.call(node.url),
+              child: MfmElementWidget(
+                  style: style?.merge(
+                    DefaultTextStyle.of(context).style.merge(
+                          Mfm.of(context).linkStyle ??
+                              TextStyle(color: Theme.of(context).primaryColor),
+                        ),
+                  ),
+                  nodes: node.children),
+            ),
+          )
         else if (node is MfmURL)
           TextSpan(
               style: DefaultTextStyle.of(context).style.merge(
