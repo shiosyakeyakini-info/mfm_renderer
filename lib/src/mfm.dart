@@ -58,8 +58,14 @@ class Mfm extends InheritedWidget {
   /// bold (such as `<b>` `**`) element style
   final TextStyle boldStyle;
 
-  /// link (such as hashtag, url, mention) element style
+  /// link element style
   final TextStyle? linkStyle;
+
+  /// hashtag element style
+  final TextStyle? hashtagStyle;
+
+  /// mention element style
+  final TextStyle? mentionStyle;
 
   /// `$[font.serif ]` element style
   final TextStyle? serifStyle;
@@ -102,6 +108,8 @@ class Mfm extends InheritedWidget {
     this.style,
     this.boldStyle = const TextStyle(fontWeight: FontWeight.bold),
     this.linkStyle,
+    this.mentionStyle,
+    this.hashtagStyle,
     this.serifStyle,
     this.monospaceStyle,
     this.mentionTap,

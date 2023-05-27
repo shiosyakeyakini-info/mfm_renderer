@@ -190,7 +190,7 @@ class MfmInlineSpan extends TextSpan {
         else if (node is MfmMention)
           TextSpan(
             style: style?.merge(
-              Mfm.of(context).linkStyle ??
+              Mfm.of(context).mentionStyle ??
                   TextStyle(color: Theme.of(context).primaryColor),
             ),
             text: node.acct.tight,
@@ -202,7 +202,7 @@ class MfmInlineSpan extends TextSpan {
         else if (node is MfmHashTag)
           TextSpan(
               style: style?.merge(
-                Mfm.of(context).linkStyle ??
+                Mfm.of(context).hashtagStyle ??
                     TextStyle(color: Theme.of(context).primaryColor),
               ),
               text: "#${node.hashTag.tight}",
