@@ -147,9 +147,9 @@ class MfmInlineSpan extends TextSpan {
         else if (node is MfmSmall)
           MfmInlineSpan(
             context: context,
-            style: style?.merge((Mfm.of(context).smallStyleBuilder ??
-                    _defaultSmallStyleBuilder)
-                .call(context, DefaultTextStyle.of(context).style.fontSize)),
+            style: style?.merge(
+                (Mfm.of(context).smallStyleBuilder ?? _defaultSmallStyleBuilder)
+                    .call(context, style?.fontSize)),
             nodes: node.children,
           )
         else if (node is MfmItalic)
@@ -189,10 +189,10 @@ class MfmInlineSpan extends TextSpan {
           )
         else if (node is MfmMention)
           TextSpan(
-            style: DefaultTextStyle.of(context).style.merge(
-                  Mfm.of(context).linkStyle ??
-                      TextStyle(color: Theme.of(context).primaryColor),
-                ),
+            style: style?.merge(
+              Mfm.of(context).linkStyle ??
+                  TextStyle(color: Theme.of(context).primaryColor),
+            ),
             text: node.acct.tight,
             recognizer: TapGestureRecognizer()
               ..onTap = () => Mfm.of(context)
@@ -201,10 +201,10 @@ class MfmInlineSpan extends TextSpan {
           )
         else if (node is MfmHashTag)
           TextSpan(
-              style: DefaultTextStyle.of(context).style.merge(
-                    Mfm.of(context).linkStyle ??
-                        TextStyle(color: Theme.of(context).primaryColor),
-                  ),
+              style: style?.merge(
+                Mfm.of(context).linkStyle ??
+                    TextStyle(color: Theme.of(context).primaryColor),
+              ),
               text: "#${node.hashTag.tight}",
               recognizer: TapGestureRecognizer()
                 ..onTap = () => Mfm.of(context).hashtagTap?.call(node.hashTag))
@@ -216,19 +216,16 @@ class MfmInlineSpan extends TextSpan {
               onTap: () => Mfm.of(context).linkTap?.call(node.url),
               child: MfmElementWidget(
                   style: style?.merge(
-                    DefaultTextStyle.of(context).style.merge(
-                          Mfm.of(context).linkStyle ??
-                              TextStyle(color: Theme.of(context).primaryColor),
-                        ),
+                    Mfm.of(context).linkStyle ??
+                        TextStyle(color: Theme.of(context).primaryColor),
                   ),
                   nodes: node.children),
             ),
           )
         else if (node is MfmURL)
           TextSpan(
-              style: DefaultTextStyle.of(context).style.merge(
-                  Mfm.of(context).linkStyle ??
-                      TextStyle(color: Theme.of(context).primaryColor)),
+              style: style?.merge(Mfm.of(context).linkStyle ??
+                  TextStyle(color: Theme.of(context).primaryColor)),
               text: node.value.tight,
               recognizer: TapGestureRecognizer()
                 ..onTap = () => Mfm.of(context).linkTap?.call(node.value))
