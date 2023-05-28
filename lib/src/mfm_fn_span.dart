@@ -137,8 +137,7 @@ class MfmFnSpan extends TextSpan {
     if (function.name == "position") {
       final x = double.tryParse(function.args["x"] ?? "") ?? 0;
       final y = double.tryParse(function.args["y"] ?? "") ?? 0;
-      final double defaultFontSize =
-          (DefaultTextStyle.of(context).style.fontSize ?? 22);
+      final double defaultFontSize = (style?.fontSize ?? 22);
 
       return [
         WidgetSpan(
@@ -158,9 +157,8 @@ class MfmFnSpan extends TextSpan {
       return [
         MfmInlineSpan(
             context: context,
-            style: style?.merge(TextStyle(
-                fontSize:
-                    (DefaultTextStyle.of(context).style.fontSize ?? 22) * 2)),
+            style:
+                style?.merge(TextStyle(fontSize: (style?.fontSize ?? 22) * 2)),
             nodes: function.children)
       ];
     }

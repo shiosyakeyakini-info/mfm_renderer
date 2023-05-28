@@ -28,8 +28,11 @@ class MfmParentWidgetState extends State<MfmParentWidget> {
         .merge(Mfm.of(context).style ?? const TextStyle())
         .merge(const TextStyle(height: 0));
 
+    final scaledStyle = style.copyWith(
+        fontSize: style.fontSize! * MediaQuery.of(context).textScaleFactor);
+
     return DefaultTextStyle.merge(
-      style: style,
+      style: scaledStyle,
       child: Text.rich(
         TextSpan(style: style, children: [
           ...Mfm.of(context).prefixSpan,
@@ -42,7 +45,6 @@ class MfmParentWidgetState extends State<MfmParentWidget> {
           ),
           ...Mfm.of(context).suffixSpan,
         ]),
-        textScaleFactor: MediaQuery.of(context).textScaleFactor,
         strutStyle: StrutStyle(height: Mfm.of(context).lineHeight),
       ),
     );
