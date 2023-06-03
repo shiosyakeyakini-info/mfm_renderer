@@ -37,8 +37,14 @@ class SimpleMfmScope extends State<SimpleMfm> {
   @override
   void didUpdateWidget(covariant SimpleMfm oldWidget) {
     super.didUpdateWidget(oldWidget);
-
-    parsed = const MfmParser().parseSimple(widget.mfmText);
+    if (oldWidget.mfmText != widget.mfmText ||
+        oldWidget.style != widget.style ||
+        oldWidget.suffixSpan != widget.suffixSpan ||
+        oldWidget.prefixSpan != widget.prefixSpan ||
+        oldWidget.unicodeEmojiBuilder != widget.unicodeEmojiBuilder ||
+        oldWidget.emojiBuilder != widget.emojiBuilder) {
+      parsed = const MfmParser().parseSimple(widget.mfmText);
+    }
   }
 
   @override
