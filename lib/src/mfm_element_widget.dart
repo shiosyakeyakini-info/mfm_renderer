@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:mfm_parser/mfm_parser.dart';
 import 'package:mfm_renderer/src/mfm_align_scope.dart';
