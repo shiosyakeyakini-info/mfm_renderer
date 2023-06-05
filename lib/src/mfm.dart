@@ -5,14 +5,16 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:mfm_renderer/src/mfm_parent_widget.dart';
 
-typedef EmojiBuilder = Widget Function(BuildContext context, String emojiName);
+typedef EmojiBuilder = Widget Function(
+    BuildContext context, String emojiName, TextStyle? style);
 typedef UnicodeEmojiBuilder = InlineSpan Function(
     BuildContext context, String emoji, TextStyle? style);
 typedef SmallStyleBuilder = TextStyle Function(
     BuildContext context, double? fontSize);
 typedef CodeBlockBuilder = Widget Function(
     BuildContext context, String code, String? language);
-typedef InlineCodeBuilder = Widget Function(BuildContext context, String code);
+typedef InlineCodeBuilder = Widget Function(
+    BuildContext context, String code, TextStyle? style);
 typedef QuoteBuilder = Widget Function(BuildContext context, Widget child);
 typedef SearchBuilder = Widget Function(BuildContext context, String query,
     FutureOr<void> Function(String)? onPressed);

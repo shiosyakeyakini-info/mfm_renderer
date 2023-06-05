@@ -8,7 +8,8 @@ import 'package:mfm_renderer/src/mfm_default_search_widget.dart';
 import 'package:mfm_renderer/src/mfm_element_widget.dart';
 import 'package:mfm_renderer/src/mfm_fn_span.dart';
 
-Widget _defaultEmojiBuilder(BuildContext context, String emojiName) =>
+Widget _defaultEmojiBuilder(
+        BuildContext context, String emojiName, TextStyle? style) =>
     Text.rich(
       TextSpan(text: ":$emojiName:"),
       textAlign: MfmAlignScope.of(context),
@@ -35,12 +36,16 @@ Widget _defaultCodeBlockBuilder(
         width: double.infinity,
         child: Text(
           code,
-          style: const TextStyle(color: Colors.white70, fontFamily: "Monaco"),
+          style: (Mfm.of(context).monospaceStyle ?? const TextStyle()).copyWith(
+            color: Colors.white70,
+          ),
+          textScaleFactor: 1.0,
         ),
       ),
     );
 
-Widget _defaultInlineCodeBuilder(BuildContext context, String code) =>
+Widget _defaultInlineCodeBuilder(
+        BuildContext context, String code, TextStyle? style) =>
     Container(
       decoration: const BoxDecoration(color: Colors.black87),
       padding: const EdgeInsets.only(left: 5, right: 5),
@@ -48,7 +53,9 @@ Widget _defaultInlineCodeBuilder(BuildContext context, String code) =>
         textScaleFactor: 1.0,
         textAlign: MfmAlignScope.of(context),
         TextSpan(
-            style: const TextStyle(color: Colors.white70, fontFamily: "Monaco"),
+            style: (style ?? const TextStyle())
+                .merge(Mfm.of(context).monospaceStyle ?? const TextStyle())
+                .copyWith(color: Colors.white70),
             text: code),
       ),
     );
@@ -80,6 +87,7 @@ Widget _defaultSearchBuilder(
 class MfmInlineSpan extends TextSpan {
   final List<MfmNode>? nodes;
   final BuildContext context;
+  final int depth;
 
   late final List<InlineSpan> _children;
 
@@ -87,6 +95,7 @@ class MfmInlineSpan extends TextSpan {
     required this.nodes,
     required super.style,
     required this.context,
+    required this.depth,
     super.recognizer,
   }) {
     _children = buildChildren();
@@ -94,6 +103,7 @@ class MfmInlineSpan extends TextSpan {
 
   List<InlineSpan> buildChildren() {
     return [
+      if (depth == 0) ...Mfm.of(context).prefixSpan,
       for (final node in nodes ?? [])
         if (node is MfmText)
           TextSpan(
@@ -112,6 +122,7 @@ class MfmInlineSpan extends TextSpan {
                   child: MfmElementWidget(
                     nodes: node.children,
                     style: style,
+                    depth: depth + 1,
                   )),
             ),
           )
@@ -134,37 +145,37 @@ class MfmInlineSpan extends TextSpan {
               child: DefaultTextStyle(
                   style: style ?? const TextStyle(),
                   child: (Mfm.of(context).emojiBuilder ?? _defaultEmojiBuilder)
-                      .call(context, node.name)))
+                      .call(context, node.name, style)))
         else if (node is MfmUnicodeEmoji)
           (Mfm.of(context).unicodeEmojiBuilder ?? _defaultUnicodeEmojiBuilder)
               .call(context, node.emoji, style)
         else if (node is MfmBold)
           MfmInlineSpan(
-            context: context,
-            style: style?.merge(Mfm.of(context).boldStyle),
-            nodes: node.children,
-          )
+              context: context,
+              style: style?.merge(Mfm.of(context).boldStyle),
+              nodes: node.children,
+              depth: depth + 1)
         else if (node is MfmSmall)
           MfmInlineSpan(
-            context: context,
-            style: style?.merge(
-                (Mfm.of(context).smallStyleBuilder ?? _defaultSmallStyleBuilder)
-                    .call(context, style?.fontSize)),
-            nodes: node.children,
-          )
+              context: context,
+              style: style?.merge(
+                  (Mfm.of(context).smallStyleBuilder ?? _defaultSmallStyleBuilder)
+                      .call(context, style?.fontSize)),
+              nodes: node.children,
+              depth: depth + 1)
         else if (node is MfmItalic)
           MfmInlineSpan(
-            context: context,
-            style: style?.merge(const TextStyle(fontStyle: FontStyle.italic)),
-            nodes: node.children,
-          )
+              context: context,
+              style: style?.merge(const TextStyle(fontStyle: FontStyle.italic)),
+              nodes: node.children,
+              depth: depth + 1)
         else if (node is MfmStrike)
           MfmInlineSpan(
-            context: context,
-            style: style?.merge(
-                const TextStyle(decoration: TextDecoration.lineThrough)),
-            nodes: node.children,
-          )
+              context: context,
+              style:
+                  style?.merge(const TextStyle(decoration: TextDecoration.lineThrough)),
+              nodes: node.children,
+              depth: depth + 1)
         else if (node is MfmPlain)
           TextSpan(text: node.text, style: style)
         else if (node is MfmInlineCode)
@@ -173,7 +184,7 @@ class MfmInlineSpan extends TextSpan {
             baseline: TextBaseline.alphabetic,
             child:
                 (Mfm.of(context).inlineCodeBuilder ?? _defaultInlineCodeBuilder)
-                    .call(context, node.code),
+                    .call(context, node.code, style),
           )
         else if (node is MfmQuote)
           WidgetSpan(
@@ -184,6 +195,7 @@ class MfmInlineSpan extends TextSpan {
               MfmElementWidget(
                 nodes: node.children,
                 style: style,
+                depth: depth + 1,
               ),
             ),
           )
@@ -206,8 +218,7 @@ class MfmInlineSpan extends TextSpan {
                     TextStyle(color: Theme.of(context).primaryColor),
               ),
               text: "#${node.hashTag.tight}",
-              recognizer: TapGestureRecognizer()
-                ..onTap = () => Mfm.of(context).hashtagTap?.call(node.hashTag))
+              recognizer: TapGestureRecognizer()..onTap = () => Mfm.of(context).hashtagTap?.call(node.hashTag))
         else if (node is MfmLink)
           WidgetSpan(
             alignment: PlaceholderAlignment.baseline,
@@ -215,22 +226,19 @@ class MfmInlineSpan extends TextSpan {
             child: GestureDetector(
               onTap: () => Mfm.of(context).linkTap?.call(node.url),
               child: MfmElementWidget(
-                  style: style?.merge(
-                    Mfm.of(context).linkStyle ??
-                        TextStyle(color: Theme.of(context).primaryColor),
-                  ),
-                  nodes: node.children),
+                style: style?.merge(
+                  Mfm.of(context).linkStyle ??
+                      TextStyle(color: Theme.of(context).primaryColor),
+                ),
+                nodes: node.children,
+                depth: depth + 1,
+              ),
             ),
           )
         else if (node is MfmURL)
-          TextSpan(
-              style: style?.merge(Mfm.of(context).linkStyle ??
-                  TextStyle(color: Theme.of(context).primaryColor)),
-              text: node.value.tight,
-              recognizer: TapGestureRecognizer()
-                ..onTap = () => Mfm.of(context).linkTap?.call(node.value))
+          TextSpan(style: style?.merge(Mfm.of(context).linkStyle ?? TextStyle(color: Theme.of(context).primaryColor)), text: node.value.tight, recognizer: TapGestureRecognizer()..onTap = () => Mfm.of(context).linkTap?.call(node.value))
         else if (node is MfmFn)
-          MfmFnSpan(context: context, style: style, function: node)
+          MfmFnSpan(context: context, style: style, function: node, depth: depth + 1)
         else
           WidgetSpan(
               alignment: PlaceholderAlignment.baseline,
@@ -238,7 +246,9 @@ class MfmInlineSpan extends TextSpan {
               child: MfmElementWidget(
                 nodes: node.children,
                 style: style,
-              ))
+                depth: depth + 1,
+              )),
+      if (depth == 0) ...Mfm.of(context).suffixSpan
     ];
   }
 

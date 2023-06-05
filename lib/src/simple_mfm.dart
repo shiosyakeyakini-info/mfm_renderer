@@ -49,30 +49,34 @@ class SimpleMfmScope extends State<SimpleMfm> {
 
   @override
   Widget build(BuildContext context) {
-    return DefaultTextStyle.merge(
-      style: widget.style,
-      child: Text.rich(
-        TextSpan(children: [
-          ...widget.prefixSpan,
-          for (final element in parsed)
-            if (element is MfmUnicodeEmoji)
-              widget.unicodeEmojiBuilder
-                      ?.call(context, element.emoji, widget.style) ??
-                  TextSpan(text: element.emoji)
-            else if (element is MfmEmojiCode)
-              WidgetSpan(
-                  alignment: PlaceholderAlignment.middle,
-                  child: widget.emojiBuilder?.call(context, element.name) ??
-                      Text(
-                        ":${element.name}:",
-                        style: DefaultTextStyle.of(context).style,
-                      ))
-            else if (element is MfmText)
-              TextSpan(text: element.text),
-          ...widget.suffixSpan,
-        ]),
-        textScaleFactor: MediaQuery.of(context).textScaleFactor,
+    return MediaQuery(
+      data: const MediaQueryData(textScaleFactor: 1.0),
+      child: DefaultTextStyle.merge(
         style: widget.style,
+        child: Text.rich(
+          TextSpan(children: [
+            ...widget.prefixSpan,
+            for (final element in parsed)
+              if (element is MfmUnicodeEmoji)
+                widget.unicodeEmojiBuilder
+                        ?.call(context, element.emoji, widget.style) ??
+                    TextSpan(text: element.emoji)
+              else if (element is MfmEmojiCode)
+                WidgetSpan(
+                    alignment: PlaceholderAlignment.middle,
+                    child: widget.emojiBuilder
+                            ?.call(context, element.name, widget.style) ??
+                        Text(
+                          ":${element.name}:",
+                          style: DefaultTextStyle.of(context).style,
+                        ))
+              else if (element is MfmText)
+                TextSpan(text: element.text),
+            ...widget.suffixSpan,
+          ]),
+          textScaleFactor: MediaQuery.of(context).textScaleFactor,
+          style: widget.style,
+        ),
       ),
     );
   }

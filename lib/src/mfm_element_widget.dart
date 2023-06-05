@@ -6,8 +6,14 @@ import 'package:mfm_renderer/src/mfm_inline_span.dart';
 class MfmElementWidget extends StatefulWidget {
   final List<MfmNode>? nodes;
   final TextStyle? style;
+  final int depth;
 
-  const MfmElementWidget({super.key, required this.nodes, required this.style});
+  const MfmElementWidget({
+    super.key,
+    required this.nodes,
+    required this.style,
+    required this.depth,
+  });
 
   @override
   State<StatefulWidget> createState() => MfmElementWidgetState();
@@ -25,7 +31,10 @@ class MfmElementWidgetState extends State<MfmElementWidget> {
   @override
   Widget build(BuildContext context) {
     inlineSpan ??= MfmInlineSpan(
-        nodes: widget.nodes ?? [], style: widget.style, context: context);
+        nodes: widget.nodes ?? [],
+        style: widget.style,
+        context: context,
+        depth: widget.depth);
 
     return Text.rich(
       inlineSpan!,

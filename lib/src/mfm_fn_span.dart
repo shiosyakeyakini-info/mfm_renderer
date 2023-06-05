@@ -11,11 +11,13 @@ import 'package:mfm_renderer/src/mfm_inline_span.dart';
 class MfmFnSpan extends TextSpan {
   final MfmFn function;
   final BuildContext context;
+  final int depth;
 
   const MfmFnSpan({
     required this.function,
     required super.style,
     required this.context,
+    required this.depth,
     super.recognizer,
   });
 
@@ -24,60 +26,70 @@ class MfmFnSpan extends TextSpan {
     if (function.name == "x2") {
       return [
         MfmInlineSpan(
-            context: context,
-            style: style?.merge(TextStyle(
-                height: 0,
-                fontSize:
-                    (DefaultTextStyle.of(context).style.fontSize ?? 22) * 2)),
-            nodes: function.children)
+          context: context,
+          style: style?.merge(TextStyle(
+              height: 0,
+              fontSize:
+                  (DefaultTextStyle.of(context).style.fontSize ?? 22) * 2)),
+          nodes: function.children,
+          depth: depth + 1,
+        )
       ];
     }
     if (function.name == "x3") {
       return [
         MfmInlineSpan(
-            context: context,
-            style: style?.merge(TextStyle(
-                height: 0,
-                fontSize:
-                    (DefaultTextStyle.of(context).style.fontSize ?? 22) * 3)),
-            nodes: function.children)
+          context: context,
+          style: style?.merge(TextStyle(
+              height: 0,
+              fontSize:
+                  (DefaultTextStyle.of(context).style.fontSize ?? 22) * 3)),
+          nodes: function.children,
+          depth: depth + 1,
+        )
       ];
     }
 
     if (function.name == "x4") {
       return [
         MfmInlineSpan(
-            context: context,
-            style: style?.merge(TextStyle(
-                height: 0,
-                fontSize:
-                    (DefaultTextStyle.of(context).style.fontSize ?? 22) * 4)),
-            nodes: function.children)
+          context: context,
+          style: style?.merge(TextStyle(
+              height: 0,
+              fontSize:
+                  (DefaultTextStyle.of(context).style.fontSize ?? 22) * 4)),
+          nodes: function.children,
+          depth: depth + 1,
+        )
       ];
     }
 
     if (function.name == "fg") {
       return [
         MfmInlineSpan(
-            context: context,
-            style: style?.merge(
-                TextStyle(color: (function.args["color"] as String?)?.color)),
-            nodes: function.children)
+          context: context,
+          style: style?.merge(
+              TextStyle(color: (function.args["color"] as String?)?.color)),
+          nodes: function.children,
+          depth: depth + 1,
+        )
       ];
     }
 
     if (function.name == "bg") {
       return [
         WidgetSpan(
-            alignment: PlaceholderAlignment.middle,
-            child: Container(
-              decoration: BoxDecoration(
-                  color: (function.args["color"] as String?).color),
-              child: MfmElementWidget(
-                nodes: function.children,
-                style: style,
-              ),
-            ))
+          alignment: PlaceholderAlignment.middle,
+          child: Container(
+            decoration:
+                BoxDecoration(color: (function.args["color"] as String?).color),
+            child: MfmElementWidget(
+              nodes: function.children,
+              style: style,
+              depth: depth + 1,
+            ),
+          ),
+        )
       ];
     }
 
@@ -91,7 +103,10 @@ class MfmFnSpan extends TextSpan {
 
       return [
         MfmInlineSpan(
-            nodes: function.children, context: context, style: fontStyle)
+            nodes: function.children,
+            context: context,
+            style: fontStyle,
+            depth: depth + 1)
       ];
     }
 
@@ -105,6 +120,7 @@ class MfmFnSpan extends TextSpan {
               child: MfmElementWidget(
                 nodes: function.children,
                 style: style,
+                depth: depth + 1,
               )),
         )
       ];
@@ -128,6 +144,7 @@ class MfmFnSpan extends TextSpan {
             child: MfmElementWidget(
               nodes: function.children,
               style: style,
+              depth: depth + 1,
             ),
           ),
         )
@@ -147,6 +164,7 @@ class MfmFnSpan extends TextSpan {
             child: MfmElementWidget(
               nodes: function.children,
               style: style,
+              depth: depth + 1,
             ),
           ),
         )
@@ -159,7 +177,8 @@ class MfmFnSpan extends TextSpan {
             context: context,
             style:
                 style?.merge(TextStyle(fontSize: (style?.fontSize ?? 22) * 2)),
-            nodes: function.children)
+            nodes: function.children,
+            depth: depth + 1)
       ];
     }
 
@@ -171,6 +190,7 @@ class MfmFnSpan extends TextSpan {
                 child: MfmElementWidget(
               nodes: function.children,
               style: style,
+              depth: depth + 1,
             )))
       ];
     }
@@ -189,6 +209,7 @@ class MfmFnSpan extends TextSpan {
               child: MfmElementWidget(
                 nodes: function.children,
                 style: style,
+                depth: depth + 1,
               ),
             ),
           )
@@ -205,6 +226,7 @@ class MfmFnSpan extends TextSpan {
               child: MfmElementWidget(
                 nodes: function.children,
                 style: style,
+                depth: depth + 1,
               ),
             ),
           )
@@ -220,6 +242,7 @@ class MfmFnSpan extends TextSpan {
             child: MfmElementWidget(
               nodes: function.children,
               style: style,
+              depth: depth + 1,
             ),
           ),
         )
@@ -227,7 +250,11 @@ class MfmFnSpan extends TextSpan {
     }
 
     return [
-      MfmInlineSpan(context: context, nodes: function.children, style: style)
+      MfmInlineSpan(
+          context: context,
+          nodes: function.children,
+          style: style,
+          depth: depth + 1)
     ];
   }
 }
