@@ -21,6 +21,19 @@ class MfmFnSpan extends TextSpan {
     super.recognizer,
   });
 
+  bool findChildrenNewLine(List<MfmNode> nodes) {
+    for (final node in nodes) {
+      if (node is MfmText) {
+        if (node.text.contains("\n")) {
+          return true;
+        } else {
+          return findChildrenNewLine(node.children ?? []);
+        }
+      }
+    }
+    return false;
+  }
+
   @override
   List<InlineSpan> get children {
     if (function.name == "x2") {
@@ -65,21 +78,33 @@ class MfmFnSpan extends TextSpan {
     }
 
     if (function.name == "fg") {
+      final hasChildrenNewLine = findChildrenNewLine(function.children ?? []);
+
       return [
-        MfmInlineSpan(
-          context: context,
-          style: style?.merge(
-              TextStyle(color: (function.args["color"] as String?)?.color)),
-          nodes: function.children,
-          depth: depth + 1,
+        WidgetSpan(
+          baseline: TextBaseline.alphabetic,
+          alignment: hasChildrenNewLine
+              ? PlaceholderAlignment.aboveBaseline
+              : PlaceholderAlignment.middle,
+          child: MfmElementWidget(
+            nodes: function.children,
+            style: style?.merge(
+                TextStyle(color: (function.args["color"] as String?)?.color)),
+            depth: depth + 1,
+          ),
         )
       ];
     }
 
     if (function.name == "bg") {
+      final hasChildrenNewLine = findChildrenNewLine(function.children ?? []);
+
       return [
         WidgetSpan(
-          alignment: PlaceholderAlignment.middle,
+          baseline: TextBaseline.alphabetic,
+          alignment: hasChildrenNewLine
+              ? PlaceholderAlignment.aboveBaseline
+              : PlaceholderAlignment.middle,
           child: Container(
             decoration:
                 BoxDecoration(color: (function.args["color"] as String?).color),
