@@ -236,7 +236,7 @@ class MfmInlineSpan extends TextSpan {
             ),
           )
         else if (node is MfmURL)
-          TextSpan(style: style?.merge(Mfm.of(context).linkStyle ?? TextStyle(color: Theme.of(context).primaryColor)), text: node.value.tight, recognizer: TapGestureRecognizer()..onTap = () => Mfm.of(context).linkTap?.call(node.value))
+          TextSpan(style: style?.merge(Mfm.of(context).linkStyle ?? TextStyle(color: Theme.of(context).primaryColor)), text: node.value.decodeUri.tight, recognizer: TapGestureRecognizer()..onTap = () => Mfm.of(context).linkTap?.call(node.value))
         else if (node is MfmFn)
           MfmFnSpan(context: context, style: style, function: node, depth: depth + 1)
         else

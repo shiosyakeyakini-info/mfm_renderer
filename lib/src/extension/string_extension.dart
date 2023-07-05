@@ -7,6 +7,14 @@ extension StringExtensions on String {
         .toString();
   }
 
+  String get decodeUri {
+    try {
+      return Uri.decodeComponent(this);
+    } catch (e) {
+      return this;
+    }
+  }
+
   String get nyaize {
     return // ja-JP
         replaceAll('な', 'にゃ')
