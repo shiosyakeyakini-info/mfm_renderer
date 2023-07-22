@@ -31,24 +31,21 @@ class MfmParentWidgetState extends State<MfmParentWidget> {
     final scaledStyle = style.copyWith(
         fontSize: style.fontSize! * MediaQuery.of(context).textScaleFactor);
 
-    return MediaQuery(
-      data: const MediaQueryData(textScaleFactor: 1.0),
-      child: DefaultTextStyle.merge(
-        style: scaledStyle,
-        child: Text.rich(
-          TextSpan(style: style, children: [
-            WidgetSpan(
-              alignment: PlaceholderAlignment.middle,
-              child: MfmElementWidget(
-                nodes: actualNode,
-                style: style,
-                depth: 0,
-              ),
+    return DefaultTextStyle.merge(
+      style: scaledStyle,
+      child: Text.rich(
+        TextSpan(style: style, children: [
+          WidgetSpan(
+            alignment: PlaceholderAlignment.middle,
+            child: MfmElementWidget(
+              nodes: actualNode,
+              style: style,
+              depth: 0,
             ),
-          ]),
-          strutStyle: StrutStyle(height: Mfm.of(context).lineHeight),
-          textScaleFactor: MediaQuery.of(context).textScaleFactor,
-        ),
+          ),
+        ]),
+        strutStyle: StrutStyle(height: Mfm.of(context).lineHeight),
+        textScaleFactor: MediaQuery.of(context).textScaleFactor,
       ),
     );
   }
