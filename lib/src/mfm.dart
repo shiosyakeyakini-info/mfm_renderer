@@ -95,6 +95,9 @@ class Mfm extends InheritedWidget {
   /// add suffix span
   final List<InlineSpan> suffixSpan;
 
+  // use animation statement.
+  final bool isUseAnimation;
+
   /// Markup Language for Misskey Sample.
   const Mfm(
     this.mfmText, {
@@ -121,6 +124,7 @@ class Mfm extends InheritedWidget {
     this.isNyaize = false,
     this.prefixSpan = const [],
     this.suffixSpan = const [],
+    this.isUseAnimation = true,
   }) : super(child: const MfmParentWidget());
 
   @override
@@ -140,7 +144,8 @@ class Mfm extends InheritedWidget {
         oldWidget.monospaceStyle != monospaceStyle ||
         oldWidget.mentionTap != mentionTap ||
         oldWidget.hashtagTap != hashtagTap ||
-        oldWidget.linkTap != linkTap;
+        oldWidget.linkTap != linkTap ||
+        oldWidget.isUseAnimation != isUseAnimation;
   }
 
   static Mfm of(BuildContext context) =>

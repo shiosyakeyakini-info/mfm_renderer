@@ -1,11 +1,20 @@
 import 'dart:math';
 
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:mfm_parser/mfm_parser.dart';
 import 'package:mfm_renderer/mfm_renderer.dart';
 import 'package:mfm_renderer/src/extension/string_extension.dart';
+import 'package:mfm_renderer/src/functions/mfm_fn_bounce.dart';
+import 'package:mfm_renderer/src/functions/mfm_fn_jump.dart';
+import 'package:mfm_renderer/src/functions/mfm_fn_shake.dart';
+import 'package:mfm_renderer/src/functions/mfm_fn_spin.dart';
+import 'package:mfm_renderer/src/functions/mfm_fn_tada.dart';
+import 'package:mfm_renderer/src/functions/mfm_fn_twitch.dart';
+import 'package:mfm_renderer/src/functions/mfm_jelly.dart';
 import 'package:mfm_renderer/src/mfm_element_widget.dart';
-import 'package:mfm_renderer/src/mfm_fn_blur.dart';
+import 'package:mfm_renderer/src/functions/mfm_fn_blur.dart';
+import 'package:mfm_renderer/src/functions/mfm_fn_rainbow.dart';
 import 'package:mfm_renderer/src/mfm_inline_span.dart';
 
 class MfmFnSpan extends TextSpan {
@@ -34,16 +43,24 @@ class MfmFnSpan extends TextSpan {
     return false;
   }
 
+  double? validTime(String? time) {
+    if (time == null) return null;
+    final value =
+        RegExp(r'^([0-9\.]+)s$').allMatches(time).firstOrNull?.group(1);
+    if (value != null) {
+      return double.tryParse(value);
+    }
+    return null;
+  }
+
   @override
   List<InlineSpan> get children {
     if (function.name == "x2") {
       return [
         MfmInlineSpan(
           context: context,
-          style: style?.merge(TextStyle(
-              height: 0,
-              fontSize:
-                  (DefaultTextStyle.of(context).style.fontSize ?? 22) * 2)),
+          style: style?.merge(
+              TextStyle(height: 0, fontSize: (style?.fontSize ?? 22) * 2)),
           nodes: function.children,
           depth: depth + 1,
         )
@@ -53,10 +70,8 @@ class MfmFnSpan extends TextSpan {
       return [
         MfmInlineSpan(
           context: context,
-          style: style?.merge(TextStyle(
-              height: 0,
-              fontSize:
-                  (DefaultTextStyle.of(context).style.fontSize ?? 22) * 3)),
+          style: style?.merge(
+              TextStyle(height: 0, fontSize: (style?.fontSize ?? 22) * 4)),
           nodes: function.children,
           depth: depth + 1,
         )
@@ -70,7 +85,7 @@ class MfmFnSpan extends TextSpan {
           style: style?.merge(TextStyle(
               height: 0,
               fontSize:
-                  (DefaultTextStyle.of(context).style.fontSize ?? 22) * 4)),
+                  (DefaultTextStyle.of(context).style.fontSize ?? 22) * 6)),
           nodes: function.children,
           depth: depth + 1,
         )
@@ -197,13 +212,21 @@ class MfmFnSpan extends TextSpan {
     }
 
     if (function.name == "tada") {
+      final speed = Mfm.of(context).isUseAnimation
+          ? 0.0
+          : validTime(function.args["speed"]) ?? 1;
       return [
-        MfmInlineSpan(
-            context: context,
-            style:
-                style?.merge(TextStyle(fontSize: (style?.fontSize ?? 22) * 2)),
-            nodes: function.children,
-            depth: depth + 1)
+        WidgetSpan(
+            alignment: PlaceholderAlignment.middle,
+            child: MfmFnTada(
+              speed: speed,
+              child: MfmElementWidget(
+                nodes: function.children,
+                style: style
+                    ?.merge(TextStyle(fontSize: (style?.fontSize ?? 22) * 2)),
+                depth: depth + 1,
+              ),
+            ))
       ];
     }
 
@@ -271,6 +294,109 @@ class MfmFnSpan extends TextSpan {
             ),
           ),
         )
+      ];
+    }
+
+    if (function.name == "rainbow" && Mfm.of(context).isUseAnimation) {
+      final speed = validTime(function.args["speed"]) ?? 1;
+      return [
+        WidgetSpan(
+            alignment: PlaceholderAlignment.middle,
+            child: MfmRainbow(
+              speed: speed,
+              child: MfmElementWidget(
+                  nodes: function.children, style: style, depth: depth + 1),
+            ))
+      ];
+    }
+
+    if (function.name == "shake" && Mfm.of(context).isUseAnimation) {
+      final speed = validTime(function.args["speed"]) ?? 0.5;
+      return [
+        WidgetSpan(
+            alignment: PlaceholderAlignment.middle,
+            child: MfmFnShake(
+              speed: speed,
+              child: MfmElementWidget(
+                  nodes: function.children, style: style, depth: depth + 1),
+            ))
+      ];
+    }
+
+    if (function.name == "jelly" && Mfm.of(context).isUseAnimation) {
+      final speed = validTime(function.args["speed"]) ?? 1.0;
+      return [
+        WidgetSpan(
+            alignment: PlaceholderAlignment.middle,
+            child: MfmFnJelly(
+              speed: speed,
+              child: MfmElementWidget(
+                  nodes: function.children, style: style, depth: depth + 1),
+            ))
+      ];
+    }
+
+    if (function.name == "twitch" && Mfm.of(context).isUseAnimation) {
+      final speed = validTime(function.args["speed"]) ?? 0.5;
+      return [
+        WidgetSpan(
+            alignment: PlaceholderAlignment.middle,
+            child: MfmFnTwitch(
+              speed: speed,
+              child: MfmElementWidget(
+                  nodes: function.children, style: style, depth: depth + 1),
+            ))
+      ];
+    }
+
+    if (function.name == "bounce" && Mfm.of(context).isUseAnimation) {
+      final speed = validTime(function.args["speed"]) ?? 0.75;
+      return [
+        WidgetSpan(
+            alignment: PlaceholderAlignment.middle,
+            child: MfmFnBounce(
+              speed: speed,
+              child: MfmElementWidget(
+                  nodes: function.children, style: style, depth: depth + 1),
+            ))
+      ];
+    }
+
+    if (function.name == "jump" && Mfm.of(context).isUseAnimation) {
+      final speed = validTime(function.args["speed"]) ?? 0.75;
+      return [
+        WidgetSpan(
+            alignment: PlaceholderAlignment.middle,
+            child: MfmFnJump(
+              speed: speed,
+              child: MfmElementWidget(
+                  nodes: function.children, style: style, depth: depth + 1),
+            ))
+      ];
+    }
+
+    if (function.name == "spin" && Mfm.of(context).isUseAnimation) {
+      final speed = validTime(function.args["speed"]) ?? 1.5;
+      final type = function.args.containsKey("x")
+          ? MfmFnSpinType.x
+          : function.args.containsKey("y")
+              ? MfmFnSpinType.y
+              : MfmFnSpinType.both;
+      final direction = function.args.containsKey("left")
+          ? MfmFnSpinDirection.reverse
+          : function.args.containsKey("alternate")
+              ? MfmFnSpinDirection.alternate
+              : MfmFnSpinDirection.normal;
+      return [
+        WidgetSpan(
+            alignment: PlaceholderAlignment.middle,
+            child: MfmFnSpin(
+              speed: speed,
+              direction: direction,
+              type: type,
+              child: MfmElementWidget(
+                  nodes: function.children, style: style, depth: depth + 1),
+            ))
       ];
     }
 

@@ -11,6 +11,8 @@ dependencies:
   flutter:
     sdk: flutter
   mfm_parser: ^1.0.3
+  themed: ^4.0.0
+  vector_math: ^2.1.4
 
 dev_dependencies:
   flutter_test:

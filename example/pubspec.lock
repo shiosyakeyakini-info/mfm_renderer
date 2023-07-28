@@ -191,6 +191,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.5.1"
+  themed:
+    dependency: transitive
+    description:
+      name: themed
+      sha256: ec7bcc8ee4dcf20ef3ba0df01414b07836fd2d01134d9f0fc36a38d2fe95a53c
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.0.0"
   vector_math:
     dependency: transitive
     description:
@@ -201,4 +209,4 @@ packages:
     version: "2.1.4"
 sdks:
   dart: ">=3.0.0-417 <4.0.0"
-  flutter: ">=1.17.0"
+  flutter: ">=2.8.0"
