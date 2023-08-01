@@ -41,6 +41,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.17.1"
+  colorfilter_generator:
+    dependency: transitive
+    description:
+      name: colorfilter_generator
+      sha256: ccc2995e440b1d828d55d99150e7cad64624f3cb4a1e235000de3f93cf10d35c
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.8"
   cupertino_icons:
     dependency: "direct main"
     description:
@@ -107,6 +115,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.2.0"
+  matrix2d:
+    dependency: transitive
+    description:
+      name: matrix2d
+      sha256: "188718dd3bc2a31e372cfd0791b0f77f4f13ea76164147342cc378d9132949e7"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.4"
   meta:
     dependency: transitive
     description:
@@ -191,14 +207,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.5.1"
-  themed:
-    dependency: transitive
-    description:
-      name: themed
-      sha256: ec7bcc8ee4dcf20ef3ba0df01414b07836fd2d01134d9f0fc36a38d2fe95a53c
-      url: "https://pub.dev"
-    source: hosted
-    version: "4.0.0"
   vector_math:
     dependency: transitive
     description:
@@ -209,4 +217,4 @@ packages:
     version: "2.1.4"
 sdks:
   dart: ">=3.0.0-417 <4.0.0"
-  flutter: ">=2.8.0"
+  flutter: ">=1.17.0"

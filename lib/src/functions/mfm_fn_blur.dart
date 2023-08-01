@@ -21,7 +21,9 @@ class MfmFnBlurState extends State<MfmFnBlur> {
       },
       child: ImageFiltered(
         imageFilter: ImageFilter.blur(
-            sigmaX: isBlur ? 10.0 : 0, sigmaY: isBlur ? 10.0 : 0),
+          sigmaX: isBlur ? 10.0 : 0,
+          sigmaY: isBlur ? 10.0 : 0,
+        ),
         child: widget.child,
       ),
     );
