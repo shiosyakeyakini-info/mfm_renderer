@@ -135,10 +135,10 @@ packages:
     dependency: transitive
     description:
       name: mfm_parser
-      sha256: "72f88aaef806c3961492e00a563eb93f5a6f0fed93ec5f15ade3cd4cca815c15"
+      sha256: ab52b5dfb5f5ebd54d9f1d8745a596a9fb7ba0e1b13e7d66984456f199143c09
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.3"
+    version: "1.0.5"
   mfm_renderer:
     dependency: "direct main"
     description:
