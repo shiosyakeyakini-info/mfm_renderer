@@ -1,6 +1,7 @@
+import 'package:colorfilter_generator/addons.dart';
+import 'package:colorfilter_generator/colorfilter_generator.dart';
 import 'package:flutter/material.dart';
 import 'package:mfm_renderer/src/extension/int_extension.dart';
-import 'package:themed/themed.dart';
 
 class MfmRainbow extends StatefulWidget {
   final Widget child;
@@ -53,10 +54,15 @@ class MfmRainbowState extends State<MfmRainbow> with TickerProviderStateMixin {
         animation: _controller,
         child: widget.child,
         builder: (context, child) {
-          return ChangeColors(
-              hue: _controller.value * 2 - 1,
-              saturation: 1.5,
-              brightness: 1.5,
+          return ColorFiltered(
+              colorFilter: ColorFilter.matrix(ColorFilterGenerator(
+                name: "base",
+                filters: [
+                  ColorFilterAddons.hue(_controller.value * 2 - 1),
+                  ColorFilterAddons.contrast(1.5),
+                  ColorFilterAddons.saturation(1.5)
+                ],
+              ).matrix),
               child: widget.child);
         });
   }
