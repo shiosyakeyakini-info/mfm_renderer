@@ -223,7 +223,7 @@ class MfmFnSpan extends TextSpan {
               child: MfmElementWidget(
                 nodes: function.children,
                 style: style
-                    ?.merge(TextStyle(fontSize: (style?.fontSize ?? 22) * 2)),
+                    ?.merge(TextStyle(fontSize: (style?.fontSize ?? 22) * 1.5)),
                 depth: depth + 1,
               ),
             ))
