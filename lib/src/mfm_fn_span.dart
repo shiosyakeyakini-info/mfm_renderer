@@ -213,8 +213,8 @@ class MfmFnSpan extends TextSpan {
 
     if (function.name == "tada") {
       final speed = Mfm.of(context).isUseAnimation
-          ? 0.0
-          : validTime(function.args["speed"]) ?? 1;
+          ? validTime(function.args["speed"]) ?? 1
+          : 0.0;
       return [
         WidgetSpan(
             alignment: PlaceholderAlignment.middle,
