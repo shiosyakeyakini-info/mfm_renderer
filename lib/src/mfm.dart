@@ -3,6 +3,7 @@ library mfm_renderer;
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:mfm_parser/mfm_parser.dart';
 import 'package:mfm_renderer/src/mfm_parent_widget.dart';
 
 typedef EmojiBuilder = Widget Function(
@@ -25,8 +26,11 @@ typedef LinkTapCallback = FutureOr<void> Function(String url);
 typedef SearchTapCallback = FutureOr<void> Function(String);
 
 class Mfm extends InheritedWidget {
-  /// mfm text.
-  final String mfmText;
+  /// mfm text. must be non-null mfmText or mfmNode.
+  final String? mfmText;
+
+  /// parsed mfm text.
+  final List<MfmNode>? mfmNode;
 
   /// code block builder
   final CodeBlockBuilder? codeBlockBuilder;
@@ -99,9 +103,10 @@ class Mfm extends InheritedWidget {
   final bool isUseAnimation;
 
   /// Markup Language for Misskey Sample.
-  const Mfm(
-    this.mfmText, {
+  const Mfm({
     super.key,
+    this.mfmText,
+    this.mfmNode,
     this.emojiBuilder,
     this.unicodeEmojiBuilder,
     this.codeBlockBuilder,
@@ -125,11 +130,16 @@ class Mfm extends InheritedWidget {
     this.prefixSpan = const [],
     this.suffixSpan = const [],
     this.isUseAnimation = true,
-  }) : super(child: const MfmParentWidget());
+  })  : assert(
+          (mfmText != null && mfmNode == null) ||
+              (mfmText == null || mfmNode != null),
+        ),
+        super(child: const MfmParentWidget());
 
   @override
   bool updateShouldNotify(covariant Mfm oldWidget) {
     return oldWidget.mfmText != mfmText ||
+        oldWidget.mfmNode != mfmNode ||
         oldWidget.emojiBuilder != emojiBuilder ||
         oldWidget.unicodeEmojiBuilder != unicodeEmojiBuilder ||
         oldWidget.codeBlockBuilder != codeBlockBuilder ||

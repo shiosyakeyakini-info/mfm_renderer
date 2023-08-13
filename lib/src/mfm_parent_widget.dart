@@ -16,8 +16,11 @@ class MfmParentWidgetState extends State<MfmParentWidget> {
   @override
   Widget build(BuildContext context) {
     final List<MfmNode> actualNode;
-    if (nodes == null) {
-      actualNode = const MfmParser().parse(Mfm.of(context).mfmText);
+    final parentMfmNode = Mfm.of(context).mfmNode;
+    if (nodes == null && parentMfmNode == null) {
+      actualNode = const MfmParser().parse(Mfm.of(context).mfmText!);
+    } else if (parentMfmNode != null) {
+      actualNode = parentMfmNode;
     } else {
       actualNode = nodes!;
     }

@@ -59,7 +59,7 @@ class MfmRenderingExampleState extends State<MfmRenderingExample> {
             child: Padding(
               padding: EdgeInsets.all(10),
               child: Mfm(
-                textController.text,
+                mfmText: textController.text,
                 mentionTap: (username, host, acct) {
                   ScaffoldMessenger.of(context)
                       .showSnackBar(SnackBar(content: Text("$acct tapped.")));
