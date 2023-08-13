@@ -19,14 +19,16 @@ class MfmFnBlurState extends State<MfmFnBlur> {
       onTap: () {
         setState(() => isBlur = !isBlur);
       },
-      child: ImageFiltered(
-        imageFilter: ImageFilter.blur(
-          sigmaX: isBlur ? 6.0 : 0,
-          sigmaY: isBlur ? 6.0 : 0,
-          tileMode: TileMode.decal,
-        ),
-        child: widget.child,
-      ),
+      child: !isBlur
+          ? widget.child
+          : ImageFiltered(
+              imageFilter: ImageFilter.blur(
+                sigmaX: 6.0,
+                sigmaY: 6.0,
+                tileMode: TileMode.decal,
+              ),
+              child: widget.child,
+            ),
     );
   }
 }
