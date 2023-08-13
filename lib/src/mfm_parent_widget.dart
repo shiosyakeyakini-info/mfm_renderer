@@ -38,6 +38,8 @@ class MfmParentWidgetState extends State<MfmParentWidget> {
     return MfmFnBlurStateScope(
       child: DefaultTextStyle.merge(
         style: scaledStyle,
+        overflow: Mfm.of(context).overflow,
+        maxLines: Mfm.of(context).maxLines,
         child: Text.rich(
           TextSpan(style: style, children: [
             WidgetSpan(
