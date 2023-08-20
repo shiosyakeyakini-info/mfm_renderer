@@ -55,11 +55,12 @@ extension NullableStringExtensions on String? {
           "FF${colorString.substring(0, 1)}${colorString.substring(0, 1)}${colorString.substring(1, 2)}${colorString.substring(1, 2)}${colorString.substring(2, 3)}${colorString.substring(2, 3)}";
     } else if (colorString.length == 4) {
       htmlColor =
-          "${colorString.substring(0, 1)}${colorString.substring(0, 1)}${colorString.substring(1, 2)}${colorString.substring(1, 2)}${colorString.substring(2, 3)}${colorString.substring(2, 3)}${colorString.substring(3, 4)}${colorString.substring(3, 4)}";
+          "${colorString.substring(1, 2)}${colorString.substring(1, 2)}${colorString.substring(2, 3)}${colorString.substring(2, 3)}${colorString.substring(3, 4)}${colorString.substring(3, 4)}${colorString.substring(0, 1)}${colorString.substring(0, 1)}";
     } else if (colorString.length == 6) {
       htmlColor = "FF$colorString";
     } else if (colorString.length == 8) {
-      htmlColor = colorString;
+      htmlColor =
+          "${colorString.substring(2, 8)}${colorString.substring(0, 1)}";
     } else {
       return null;
     }
