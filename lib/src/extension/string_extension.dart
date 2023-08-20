@@ -53,6 +53,9 @@ extension NullableStringExtensions on String? {
     if (colorString.length == 3) {
       htmlColor =
           "FF${colorString.substring(0, 1)}${colorString.substring(0, 1)}${colorString.substring(1, 2)}${colorString.substring(1, 2)}${colorString.substring(2, 3)}${colorString.substring(2, 3)}";
+    } else if (colorString.length == 4) {
+      htmlColor =
+          "${colorString.substring(0, 1)}${colorString.substring(0, 1)}${colorString.substring(1, 2)}${colorString.substring(1, 2)}${colorString.substring(2, 3)}${colorString.substring(2, 3)}${colorString.substring(3, 4)}${colorString.substring(3, 4)}";
     } else if (colorString.length == 6) {
       htmlColor = "FF$colorString";
     } else if (colorString.length == 8) {
