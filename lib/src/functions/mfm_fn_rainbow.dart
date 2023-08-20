@@ -59,7 +59,7 @@ class MfmRainbowState extends State<MfmRainbow> with TickerProviderStateMixin {
                 name: "base",
                 filters: [
                   ColorFilterAddons.hue(_controller.value * 2 - 1),
-                  ColorFilterAddons.contrast(1.5),
+                  ColorFilterAddons.contrast(0.5),
                   ColorFilterAddons.saturation(1.5)
                 ],
               ).matrix),
