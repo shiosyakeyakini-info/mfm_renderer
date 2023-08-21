@@ -21,14 +21,17 @@ class MfmFnSpan extends TextSpan {
   final MfmFn function;
   final BuildContext context;
   final int depth;
+  late final List<InlineSpan> _cachedSpan;
 
-  const MfmFnSpan({
+  MfmFnSpan({
     required this.function,
     required super.style,
     required this.context,
     required this.depth,
     super.recognizer,
-  });
+  }) {
+    _cachedSpan = buildChildren();
+  }
 
   bool findChildrenNewLine(List<MfmNode> nodes) {
     for (final node in nodes) {
@@ -53,8 +56,7 @@ class MfmFnSpan extends TextSpan {
     return null;
   }
 
-  @override
-  List<InlineSpan> get children {
+  List<InlineSpan> buildChildren() {
     if (function.name == "x2") {
       return [
         MfmInlineSpan(
@@ -408,4 +410,7 @@ class MfmFnSpan extends TextSpan {
           depth: depth + 1)
     ];
   }
+
+  @override
+  List<InlineSpan> get children => _cachedSpan;
 }
