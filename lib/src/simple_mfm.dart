@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:mfm_parser/mfm_parser.dart';
 import 'package:mfm_renderer/mfm_renderer.dart';
+import 'package:mfm_renderer/src/extension/string_extension.dart';
 
 /// simplify mfm
 class SimpleMfm extends StatefulWidget {
@@ -10,6 +11,7 @@ class SimpleMfm extends StatefulWidget {
   final TextStyle? style;
   final List<InlineSpan> suffixSpan;
   final List<InlineSpan> prefixSpan;
+  final bool isNyaize;
 
   const SimpleMfm(
     this.mfmText, {
@@ -17,6 +19,7 @@ class SimpleMfm extends StatefulWidget {
     this.style,
     this.emojiBuilder,
     this.unicodeEmojiBuilder,
+    this.isNyaize = false,
     this.suffixSpan = const [],
     this.prefixSpan = const [],
   });
@@ -71,7 +74,8 @@ class SimpleMfmScope extends State<SimpleMfm> {
                           style: DefaultTextStyle.of(context).style,
                         ))
               else if (element is MfmText)
-                TextSpan(text: element.text),
+                TextSpan(
+                    text: widget.isNyaize ? element.text.nyaize : element.text),
             ...widget.suffixSpan,
           ]),
           textScaleFactor: MediaQuery.of(context).textScaleFactor,
