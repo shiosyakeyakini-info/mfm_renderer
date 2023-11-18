@@ -7,13 +7,13 @@ import 'package:mfm_renderer/mfm_renderer.dart';
 import 'package:mfm_renderer/src/extension/string_extension.dart';
 import 'package:mfm_renderer/src/functions/mfm_fn_bounce.dart';
 import 'package:mfm_renderer/src/functions/mfm_fn_jump.dart';
+import 'package:mfm_renderer/src/functions/mfm_fn_ruby.dart';
 import 'package:mfm_renderer/src/functions/mfm_fn_shake.dart';
 import 'package:mfm_renderer/src/functions/mfm_fn_spin.dart';
 import 'package:mfm_renderer/src/functions/mfm_fn_tada.dart';
 import 'package:mfm_renderer/src/functions/mfm_fn_twitch.dart';
 import 'package:mfm_renderer/src/functions/mfm_jelly.dart';
 import 'package:mfm_renderer/src/mfm_element_widget.dart';
-import 'package:mfm_renderer/src/functions/mfm_fn_blur.dart';
 import 'package:mfm_renderer/src/functions/mfm_fn_rainbow.dart';
 import 'package:mfm_renderer/src/mfm_inline_span.dart';
 
@@ -41,10 +41,17 @@ class MfmFnSpan extends TextSpan {
         } else {
           return findChildrenNewLine(node.children ?? []);
         }
+      } else if (node is MfmEmojiCode) {
+        return true;
       }
     }
     return false;
   }
+
+  PlaceholderAlignment resolveAlignment(List<MfmNode> nodes) =>
+      findChildrenNewLine(nodes)
+          ? PlaceholderAlignment.aboveBaseline
+          : PlaceholderAlignment.middle;
 
   double? validTime(String? time) {
     if (time == null) return null;
@@ -95,18 +102,16 @@ class MfmFnSpan extends TextSpan {
     }
 
     if (function.name == "fg") {
-      final hasChildrenNewLine = findChildrenNewLine(function.children ?? []);
-
       return [
         WidgetSpan(
+          style: style,
+          alignment: resolveAlignment(function.children ?? []),
           baseline: TextBaseline.alphabetic,
-          alignment: hasChildrenNewLine
-              ? PlaceholderAlignment.aboveBaseline
-              : PlaceholderAlignment.middle,
           child: MfmElementWidget(
             nodes: function.children,
-            style: style?.merge(
-                TextStyle(color: (function.args["color"] as String?)?.color)),
+            style: style?.merge(TextStyle(
+                color: (function.args["color"] as String?)?.color,
+                height: Mfm.of(context).lineHeight)),
             depth: depth + 1,
           ),
         )
@@ -114,20 +119,17 @@ class MfmFnSpan extends TextSpan {
     }
 
     if (function.name == "bg") {
-      final hasChildrenNewLine = findChildrenNewLine(function.children ?? []);
-
       return [
         WidgetSpan(
-          baseline: TextBaseline.alphabetic,
-          alignment: hasChildrenNewLine
-              ? PlaceholderAlignment.aboveBaseline
-              : PlaceholderAlignment.middle,
+          style: style,
+          alignment: resolveAlignment(function.children ?? []),
+          baseline: TextBaseline.ideographic,
           child: Container(
             decoration:
                 BoxDecoration(color: (function.args["color"] as String?).color),
             child: MfmElementWidget(
               nodes: function.children,
-              style: style,
+              style: style?.copyWith(height: Mfm.of(context).lineHeight),
               depth: depth + 1,
             ),
           ),
@@ -156,7 +158,8 @@ class MfmFnSpan extends TextSpan {
       final deg = double.tryParse(function.args["deg"] ?? "") ?? 90.0;
       return [
         WidgetSpan(
-          alignment: PlaceholderAlignment.middle,
+          alignment: resolveAlignment(function.children ?? []),
+          baseline: TextBaseline.alphabetic,
           child: Transform.rotate(
               angle: deg * pi / 180,
               child: MfmElementWidget(
@@ -179,7 +182,8 @@ class MfmFnSpan extends TextSpan {
 
       return [
         WidgetSpan(
-          alignment: PlaceholderAlignment.middle,
+          alignment: resolveAlignment(function.children ?? []),
+          baseline: TextBaseline.alphabetic,
           child: Transform.scale(
             scaleX: x,
             scaleY: y,
@@ -200,7 +204,8 @@ class MfmFnSpan extends TextSpan {
 
       return [
         WidgetSpan(
-          alignment: PlaceholderAlignment.middle,
+          alignment: resolveAlignment(function.children ?? []),
+          baseline: TextBaseline.ideographic,
           child: Transform.translate(
             offset: Offset(x * defaultFontSize, y * defaultFontSize),
             child: MfmElementWidget(
@@ -219,7 +224,7 @@ class MfmFnSpan extends TextSpan {
           : 0.0;
       return [
         WidgetSpan(
-            alignment: PlaceholderAlignment.middle,
+            alignment: resolveAlignment(function.children ?? []),
             child: MfmFnTada(
               speed: speed,
               child: MfmElementWidget(
@@ -235,13 +240,16 @@ class MfmFnSpan extends TextSpan {
     if (function.name == "blur") {
       return [
         WidgetSpan(
-            alignment: PlaceholderAlignment.middle,
-            child: MfmFnBlur(
-                child: MfmElementWidget(
+          alignment: resolveAlignment(function.children ?? []),
+          baseline: TextBaseline.alphabetic,
+          child: MfmFnBlur(
+            child: MfmElementWidget(
               nodes: function.children,
               style: style,
               depth: depth + 1,
-            )))
+            ),
+          ),
+        )
       ];
     }
 
@@ -252,7 +260,8 @@ class MfmFnSpan extends TextSpan {
       if ((!isVertical && !isHorizontal) || (isHorizontal && !isVertical)) {
         return [
           WidgetSpan(
-            alignment: PlaceholderAlignment.middle,
+            alignment: resolveAlignment(function.children ?? []),
+            baseline: TextBaseline.alphabetic,
             child: Transform(
               transform: Matrix4.rotationY(pi),
               alignment: Alignment.center,
@@ -269,7 +278,8 @@ class MfmFnSpan extends TextSpan {
       if (isVertical && !isHorizontal) {
         return [
           WidgetSpan(
-            alignment: PlaceholderAlignment.middle,
+            alignment: resolveAlignment(function.children ?? []),
+            baseline: TextBaseline.alphabetic,
             child: Transform(
               transform: Matrix4.rotationX(pi),
               alignment: Alignment.center,
@@ -285,7 +295,8 @@ class MfmFnSpan extends TextSpan {
 
       return [
         WidgetSpan(
-          alignment: PlaceholderAlignment.middle,
+          alignment: resolveAlignment(function.children ?? []),
+          baseline: TextBaseline.alphabetic,
           child: Transform(
             transform: Matrix4.rotationZ(pi),
             alignment: Alignment.center,
@@ -297,6 +308,59 @@ class MfmFnSpan extends TextSpan {
           ),
         )
       ];
+    }
+
+    if (function.name == "ruby") {
+      final children = function.children;
+      if (children == null) return [];
+      final String text;
+      final alignment = findChildrenNewLine(function.children ?? [])
+          ? PlaceholderAlignment.middle
+          : PlaceholderAlignment.aboveBaseline;
+
+      if (children.length == 1) {
+        final child = children[0];
+        text = child is MfmText ? child.text : "";
+
+        final splited = text.split(' ');
+
+        return [
+          WidgetSpan(
+            style: style,
+            alignment: alignment,
+            baseline: TextBaseline.ideographic,
+            child: MfmFnRuby(
+              rt: splited.length >= 2 ? splited[1] : "",
+              style: style,
+              child: Text.rich(
+                textScaler: TextScaler.noScaling,
+                TextSpan(text: splited[0]),
+                style: style?.copyWith(height: 1.2),
+              ),
+            ),
+          )
+        ];
+      } else {
+        final rt = children.last;
+        text = rt is MfmText ? rt.text : "";
+
+        return [
+          WidgetSpan(
+            style: style,
+            alignment: alignment,
+            baseline: TextBaseline.ideographic,
+            child: MfmFnRuby(
+              rt: text.trim(),
+              style: style?.copyWith(height: 1.2),
+              child: MfmElementWidget(
+                nodes: children.sublist(0, children.length - 1),
+                depth: depth + 1,
+                style: style?.copyWith(height: 1.2),
+              ),
+            ),
+          )
+        ];
+      }
     }
 
     if (function.name == "rainbow" && Mfm.of(context).isUseAnimation) {
