@@ -1,6 +1,5 @@
 import 'dart:math';
 
-import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:mfm_parser/mfm_parser.dart';
 import 'package:mfm_renderer/mfm_renderer.dart';
@@ -16,6 +15,10 @@ import 'package:mfm_renderer/src/functions/mfm_jelly.dart';
 import 'package:mfm_renderer/src/mfm_element_widget.dart';
 import 'package:mfm_renderer/src/functions/mfm_fn_rainbow.dart';
 import 'package:mfm_renderer/src/mfm_inline_span.dart';
+
+UnixTimeBuilder _defaultUnixTimeBuilder = (context, date, style) {
+  return TextSpan(text: date?.toIso8601String() ?? "");
+};
 
 class MfmFnSpan extends TextSpan {
   final MfmFn function;
@@ -361,6 +364,24 @@ class MfmFnSpan extends TextSpan {
           )
         ];
       }
+    }
+
+    if (function.name == "unixtime") {
+      final child = function.children?.firstOrNull;
+      final unixtime = child is MfmText ? int.tryParse(child.text) : null;
+      DateTime? date;
+      try {
+        date = unixtime == null
+            ? null
+            : DateTime.fromMillisecondsSinceEpoch(unixtime * 1000);
+      } catch (e) {
+        date = null;
+      }
+
+      return [
+        Mfm.of(context).unixTimeBuilder?.call(context, date, style) ??
+            _defaultUnixTimeBuilder(context, date, style)
+      ];
     }
 
     if (function.name == "rainbow" && Mfm.of(context).isUseAnimation) {

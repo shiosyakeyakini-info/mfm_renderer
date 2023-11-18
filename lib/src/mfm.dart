@@ -19,6 +19,8 @@ typedef InlineCodeBuilder = Widget Function(
 typedef QuoteBuilder = Widget Function(BuildContext context, Widget child);
 typedef SearchBuilder = Widget Function(BuildContext context, String query,
     FutureOr<void> Function(String)? onPressed);
+typedef UnixTimeBuilder = InlineSpan Function(
+    BuildContext context, DateTime? unixtime, TextStyle? style);
 typedef MentionTapCallBack = FutureOr<void> Function(
     String userName, String? host, String acct);
 typedef HashtagCallback = FutureOr<void> Function(String hashtag);
@@ -54,6 +56,9 @@ class Mfm extends InheritedWidget {
 
   /// search block builder
   final SearchBuilder? searchBuilder;
+
+  /// $[unixtime builder
+  final UnixTimeBuilder? unixTimeBuilder;
 
   /// line height.
   final double lineHeight;
@@ -114,6 +119,7 @@ class Mfm extends InheritedWidget {
     this.smallStyleBuilder,
     this.quoteBuilder,
     this.searchBuilder,
+    this.unixTimeBuilder,
     this.lineHeight = 1.35,
     this.style,
     this.boldStyle = const TextStyle(fontWeight: FontWeight.bold),
@@ -146,6 +152,7 @@ class Mfm extends InheritedWidget {
         oldWidget.inlineCodeBuilder != inlineCodeBuilder ||
         oldWidget.smallStyleBuilder != smallStyleBuilder ||
         oldWidget.quoteBuilder != quoteBuilder ||
+        oldWidget.unixTimeBuilder != unixTimeBuilder ||
         oldWidget.lineHeight != lineHeight ||
         oldWidget.style != style ||
         oldWidget.boldStyle != boldStyle ||
