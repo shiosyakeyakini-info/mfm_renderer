@@ -84,6 +84,12 @@ class Mfm extends InheritedWidget {
   /// `$[font.monospace ]` element style
   final TextStyle? monospaceStyle;
 
+  /// `$[font.cursive ] element style
+  final TextStyle? cursiveStyle;
+
+  /// `$[font.fantasy ] elemen style
+  final TextStyle? fantasyStyle;
+
   /// callback when tap mention.
   final MentionTapCallBack? mentionTap;
 

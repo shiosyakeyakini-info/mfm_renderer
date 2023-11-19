@@ -147,7 +147,11 @@ class MfmFnSpan extends TextSpan {
         fontStyle = style?.merge(Mfm.of(context).serifStyle);
       } else if (function.args.containsKey("monospace")) {
         fontStyle = style?.merge(Mfm.of(context).monospaceStyle);
-      } else {}
+      } else if (function.args.containsKey("cursive")) {
+        fontStyle = style?.merge(Mfm.of(context).cursiveStyle);
+      } else if (function.args.containsKey("fantasy")) {
+        fontStyle = style?.merge(Mfm.of(context).fantasyStyle);
+      }
 
       return [
         MfmInlineSpan(
