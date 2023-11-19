@@ -134,6 +134,8 @@ class Mfm extends InheritedWidget {
     this.hashtagStyle,
     this.serifStyle,
     this.monospaceStyle,
+    this.cursiveStyle,
+    this.fantasyStyle,
     this.mentionTap,
     this.hashtagTap,
     this.linkTap,
@@ -165,6 +167,8 @@ class Mfm extends InheritedWidget {
         oldWidget.linkStyle != linkStyle ||
         oldWidget.serifStyle != serifStyle ||
         oldWidget.monospaceStyle != monospaceStyle ||
+        oldWidget.cursiveStyle != cursiveStyle ||
+        oldWidget.fantasyStyle != fantasyStyle ||
         oldWidget.mentionTap != mentionTap ||
         oldWidget.hashtagTap != hashtagTap ||
         oldWidget.linkTap != linkTap ||
