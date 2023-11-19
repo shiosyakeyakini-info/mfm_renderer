@@ -8,6 +8,7 @@ import 'package:mfm_renderer/src/functions/mfm_fn_bounce.dart';
 import 'package:mfm_renderer/src/functions/mfm_fn_jump.dart';
 import 'package:mfm_renderer/src/functions/mfm_fn_ruby.dart';
 import 'package:mfm_renderer/src/functions/mfm_fn_shake.dart';
+import 'package:mfm_renderer/src/functions/mfm_fn_sparkle.dart';
 import 'package:mfm_renderer/src/functions/mfm_fn_spin.dart';
 import 'package:mfm_renderer/src/functions/mfm_fn_tada.dart';
 import 'package:mfm_renderer/src/functions/mfm_fn_twitch.dart';
@@ -228,6 +229,7 @@ class MfmFnSpan extends TextSpan {
       return [
         WidgetSpan(
             alignment: resolveAlignment(function.children ?? []),
+            baseline: TextBaseline.alphabetic,
             child: MfmFnTada(
               speed: speed,
               child: MfmElementWidget(
@@ -484,6 +486,23 @@ class MfmFnSpan extends TextSpan {
               child: MfmElementWidget(
                   nodes: function.children, style: style, depth: depth + 1),
             ))
+      ];
+    }
+
+    if (function.name == "sparkle") {
+      final speed = validTime(function.args["speed"]) ?? 1.5;
+      return [
+        WidgetSpan(
+          alignment: PlaceholderAlignment.middle,
+          child: MfmFnSparkle(
+            speed: speed,
+            child: MfmElementWidget(
+              nodes: function.children,
+              style: style,
+              depth: depth + 1,
+            ),
+          ),
+        )
       ];
     }
 
