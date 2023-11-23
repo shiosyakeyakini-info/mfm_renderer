@@ -1,12 +1,7 @@
 This package is [MFM](https://misskey-hub.net/en/docs/features/mfm.html) renderer for Flutter.
 
 <img src="https://raw.githubusercontent.com/shiosyakeyakini-info/mfm_renderer/main/doc/assets/example.png" height="512">
-<video height="512" controls>
-  <source src="https://raw.githubusercontent.com/shiosyakeyakini-info/mfm_renderer/main/doc/assets/animation_example.mp4" type="video/mp4" />
-
-  <img src="https://raw.githubusercontent.com/shiosyakeyakini-info/mfm_renderer/main/doc/assets/animation_example.gif" />
-</video>
-
+<img src="https://raw.githubusercontent.com/shiosyakeyakini-info/mfm_renderer/main/doc/assets/animation_example.gif" />
 ## Overview
 
 MFM is markup language like markdown which is used [Misskey](https://misskey-hub.net/). This package is not rely to webview.
