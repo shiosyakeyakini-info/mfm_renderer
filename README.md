@@ -6,8 +6,6 @@ This package is [MFM](https://misskey-hub.net/en/docs/features/mfm.html) rendere
 
 MFM is markup language like markdown which is used [Misskey](https://misskey-hub.net/). This package is not rely to webview.
 
-This is not support Firefish
-
 ## Features
 
 This package supports these MFM syntaxes.
