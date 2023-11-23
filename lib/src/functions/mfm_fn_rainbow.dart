@@ -1,7 +1,7 @@
 import 'package:colorfilter_generator/addons.dart';
 import 'package:colorfilter_generator/colorfilter_generator.dart';
 import 'package:flutter/material.dart';
-import 'package:mfm_renderer/src/extension/int_extension.dart';
+import 'package:mfm/src/extension/int_extension.dart';
 
 class MfmRainbow extends StatefulWidget {
   final Widget child;

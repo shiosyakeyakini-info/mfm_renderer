@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mfm_renderer/mfm_renderer.dart';
+import 'package:mfm/mfm.dart';
 
 class MfmDefaultSearch extends StatefulWidget {
   final String query;

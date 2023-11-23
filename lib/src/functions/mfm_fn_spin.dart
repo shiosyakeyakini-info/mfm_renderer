@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:mfm_renderer/src/extension/int_extension.dart';
+import 'package:mfm/src/extension/int_extension.dart';
 import 'package:vector_math/vector_math_64.dart';
 
 enum MfmFnSpinDirection { normal, reverse, alternate }

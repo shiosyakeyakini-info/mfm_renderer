@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mfm_parser/mfm_parser.dart';
-import 'package:mfm_renderer/src/mfm_align_scope.dart';
-import 'package:mfm_renderer/src/mfm_inline_span.dart';
+import 'package:mfm/src/mfm_align_scope.dart';
+import 'package:mfm/src/mfm_inline_span.dart';
 
 class MfmElementWidget extends StatefulWidget {
   final List<MfmNode>? nodes;

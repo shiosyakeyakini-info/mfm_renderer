@@ -4,27 +4,50 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:mfm_parser/mfm_parser.dart';
-import 'package:mfm_renderer/src/mfm_parent_widget.dart';
+import 'package:mfm/src/mfm_parent_widget.dart';
 
+/// Build Emojis which is presented shortcode.
 typedef EmojiBuilder = Widget Function(
     BuildContext context, String emojiName, TextStyle? style);
+
+/// Build Unicode Emojis.
 typedef UnicodeEmojiBuilder = InlineSpan Function(
     BuildContext context, String emoji, TextStyle? style);
+
+/// Build small style.
 typedef SmallStyleBuilder = TextStyle Function(
     BuildContext context, double? fontSize);
+
+/// Build code block.
 typedef CodeBlockBuilder = Widget Function(
     BuildContext context, String code, String? language);
+
+/// Build inline code block.
 typedef InlineCodeBuilder = Widget Function(
     BuildContext context, String code, TextStyle? style);
+
+/// Build quote code block.
 typedef QuoteBuilder = Widget Function(BuildContext context, Widget child);
+
+/// Build search block.
 typedef SearchBuilder = Widget Function(BuildContext context, String query,
     FutureOr<void> Function(String)? onPressed);
+
+/// Build unixtime block.
 typedef UnixTimeBuilder = InlineSpan Function(
     BuildContext context, DateTime? unixtime, TextStyle? style);
+
+/// Callback when tap mention.
 typedef MentionTapCallBack = FutureOr<void> Function(
     String userName, String? host, String acct);
+
+/// Callback when tap hashtag.
 typedef HashtagCallback = FutureOr<void> Function(String hashtag);
+
+/// Callback when tap link.
 typedef LinkTapCallback = FutureOr<void> Function(String url);
+
+/// Callback when tap default search buttons.
 typedef SearchTapCallback = FutureOr<void> Function(String);
 
 class Mfm extends InheritedWidget {
@@ -41,7 +64,7 @@ class Mfm extends InheritedWidget {
   final InlineCodeBuilder? inlineCodeBuilder;
 
   /// `<small>...</small>` style builder.
-  /// arguments [fontSize] will be provide currently font size.
+  /// arguments [style.fontSize] will be provide currently font size.
   /// font size will be changed relativity, such as `$[x2 <small>...</small>]` syntax.
   final SmallStyleBuilder? smallStyleBuilder;
 
@@ -84,10 +107,10 @@ class Mfm extends InheritedWidget {
   /// `$[font.monospace ]` element style
   final TextStyle? monospaceStyle;
 
-  /// `$[font.cursive ] element style
+  /// `$[font.cursive ]` element style
   final TextStyle? cursiveStyle;
 
-  /// `$[font.fantasy ] elemen style
+  /// `$[font.fantasy ]` elemen style
   final TextStyle? fantasyStyle;
 
   /// callback when tap mention.
@@ -99,6 +122,7 @@ class Mfm extends InheritedWidget {
   /// callback when tap link, url.
   final LinkTapCallback? linkTap;
 
+  /// callback when tap [Seach]
   final SearchTapCallback? searchTap;
 
   /// apply text nyaize
@@ -175,6 +199,7 @@ class Mfm extends InheritedWidget {
         oldWidget.isUseAnimation != isUseAnimation;
   }
 
+  /// provides root MFM Widget
   static Mfm of(BuildContext context) =>
       context.dependOnInheritedWidgetOfExactType<Mfm>()!;
 }

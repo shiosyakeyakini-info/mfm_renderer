@@ -1,6 +1,13 @@
 This package is [MFM](https://misskey-hub.net/en/docs/features/mfm.html) renderer for Flutter.
 
+<img src="https://github.com/shiosyakeyakini-info/mfm_renderer/raw/master/doc/assets/example.png" width="256">
+<video width="256" controls>
+  <source src="https://github.com/shiosyakeyakini-info/mfm_renderer/raw/master/doc/assets/animation_example.mp4" type="video/mp4" />
+</video>
 
+## Overview
+
+MFM is markup language like markdown which is used [Misskey](https://misskey-hub.net/). This package is not rely to webview.
 
 ## Features
 
@@ -20,11 +27,11 @@ This package supports these MFM syntaxes.
 - Search syntax
 - Translate Items(`$[scale` `$[position` `$[flip` )
 - Blur Items
-- Ruby
+- Ruby (`$[ruby]`)
 - Show absolute time(`$[unixtime]`)
 - MFM Animations
   - `$[rainbow]` `$[shake]` `$[jelly]` `$[twitch]` `$[bounce]` `$[jump]` `$[spin]` and `$[spakle]`
-- Nyaize these items (such as `なんなん` to `にゃんにゃん`)
+- Nyaize these items (such as `なんなん` to `にゃんにゃん`) if you want.
 
 ## Getting started
 
@@ -32,12 +39,8 @@ This package supports these MFM syntaxes.
 flutter pub add mfm_renderer
 ```
 
+
+
 ## Usage
 
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder.
-
-```dart
-const like = 'sample';
-```
-
+See `example/lib/main.dart`.

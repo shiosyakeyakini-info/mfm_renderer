@@ -2,20 +2,20 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:mfm_parser/mfm_parser.dart';
-import 'package:mfm_renderer/mfm_renderer.dart';
-import 'package:mfm_renderer/src/extension/string_extension.dart';
-import 'package:mfm_renderer/src/functions/mfm_fn_bounce.dart';
-import 'package:mfm_renderer/src/functions/mfm_fn_jump.dart';
-import 'package:mfm_renderer/src/functions/mfm_fn_ruby.dart';
-import 'package:mfm_renderer/src/functions/mfm_fn_shake.dart';
-import 'package:mfm_renderer/src/functions/mfm_fn_sparkle.dart';
-import 'package:mfm_renderer/src/functions/mfm_fn_spin.dart';
-import 'package:mfm_renderer/src/functions/mfm_fn_tada.dart';
-import 'package:mfm_renderer/src/functions/mfm_fn_twitch.dart';
-import 'package:mfm_renderer/src/functions/mfm_jelly.dart';
-import 'package:mfm_renderer/src/mfm_element_widget.dart';
-import 'package:mfm_renderer/src/functions/mfm_fn_rainbow.dart';
-import 'package:mfm_renderer/src/mfm_inline_span.dart';
+import 'package:mfm/mfm.dart';
+import 'package:mfm/src/extension/string_extension.dart';
+import 'package:mfm/src/functions/mfm_fn_bounce.dart';
+import 'package:mfm/src/functions/mfm_fn_jump.dart';
+import 'package:mfm/src/functions/mfm_fn_ruby.dart';
+import 'package:mfm/src/functions/mfm_fn_shake.dart';
+import 'package:mfm/src/functions/mfm_fn_sparkle.dart';
+import 'package:mfm/src/functions/mfm_fn_spin.dart';
+import 'package:mfm/src/functions/mfm_fn_tada.dart';
+import 'package:mfm/src/functions/mfm_fn_twitch.dart';
+import 'package:mfm/src/functions/mfm_jelly.dart';
+import 'package:mfm/src/mfm_element_widget.dart';
+import 'package:mfm/src/functions/mfm_fn_rainbow.dart';
+import 'package:mfm/src/mfm_inline_span.dart';
 
 UnixTimeBuilder _defaultUnixTimeBuilder = (context, date, style) {
   return TextSpan(text: date?.toIso8601String() ?? "");

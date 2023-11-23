@@ -1,12 +1,12 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:mfm_parser/mfm_parser.dart';
-import 'package:mfm_renderer/mfm_renderer.dart';
-import 'package:mfm_renderer/src/extension/string_extension.dart';
-import 'package:mfm_renderer/src/mfm_align_scope.dart';
-import 'package:mfm_renderer/src/mfm_default_search_widget.dart';
-import 'package:mfm_renderer/src/mfm_element_widget.dart';
-import 'package:mfm_renderer/src/mfm_fn_span.dart';
+import 'package:mfm/mfm.dart';
+import 'package:mfm/src/extension/string_extension.dart';
+import 'package:mfm/src/mfm_align_scope.dart';
+import 'package:mfm/src/mfm_default_search_widget.dart';
+import 'package:mfm/src/mfm_element_widget.dart';
+import 'package:mfm/src/mfm_fn_span.dart';
 
 Widget _defaultEmojiBuilder(
         BuildContext context, String emojiName, TextStyle? style) =>

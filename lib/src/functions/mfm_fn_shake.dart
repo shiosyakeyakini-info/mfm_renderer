@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:mfm_renderer/src/extension/int_extension.dart';
+import 'package:mfm/src/extension/int_extension.dart';
 
 class MfmFnShake extends StatefulWidget {
   final Widget child;

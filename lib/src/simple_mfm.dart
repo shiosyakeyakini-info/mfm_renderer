@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:mfm_parser/mfm_parser.dart';
-import 'package:mfm_renderer/mfm_renderer.dart';
-import 'package:mfm_renderer/src/extension/string_extension.dart';
+import 'package:mfm/mfm.dart';
+import 'package:mfm/src/extension/string_extension.dart';
 
 /// simplify mfm
 class SimpleMfm extends StatefulWidget {
