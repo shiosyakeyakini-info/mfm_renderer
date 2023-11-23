@@ -1,8 +1,8 @@
 This package is [MFM](https://misskey-hub.net/en/docs/features/mfm.html) renderer for Flutter.
 
-<img src="https://raw.githubusercontent.com/shiosyakeyakini-info/mfm_renderer/raw/master/doc/assets/example.png" width="256">
+<img src="https://raw.githubusercontent.com/shiosyakeyakini-info/mfm_renderer/main/doc/assets/example.png" width="256">
 <video width="256" controls>
-  <source src="https://raw.githubusercontent.com/shiosyakeyakini-info/mfm_renderer/raw/master/doc/assets/animation_example.mp4" type="video/mp4" />
+  <source src="https://raw.githubusercontent.com/shiosyakeyakini-info/mfm_renderer/main/doc/assets/animation_example.mp4" type="video/mp4" />
 </video>
 
 ## Overview
