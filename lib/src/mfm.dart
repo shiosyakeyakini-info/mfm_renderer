@@ -137,6 +137,12 @@ class Mfm extends InheritedWidget {
   // use animation statement.
   final bool isUseAnimation;
 
+  /// See [Text.overflow]
+  final TextOverflow? overflow;
+
+  /// See [Text.maxLines]
+  final int? maxLines;
+
   /// Markup Language for Misskey Sample.
   const Mfm({
     super.key,
@@ -168,6 +174,8 @@ class Mfm extends InheritedWidget {
     this.prefixSpan = const [],
     this.suffixSpan = const [],
     this.isUseAnimation = true,
+    this.overflow,
+    this.maxLines,
   })  : assert(
           (mfmText != null && mfmNode == null) ||
               (mfmText == null || mfmNode != null),
