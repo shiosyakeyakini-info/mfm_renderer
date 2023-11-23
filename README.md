@@ -33,7 +33,7 @@ This package supports these MFM syntaxes.
 ## Getting started
 
 ```
-flutter pub add mfm_renderer
+flutter pub add mfm
 ```
 
 

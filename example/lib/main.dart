@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_highlighting/flutter_highlighting.dart';
 import 'package:flutter_highlighting/themes/github-dark.dart';
 import 'package:highlighting/languages/all.dart';
-import 'package:mfm_renderer/mfm_renderer.dart';
+import 'package:mfm/mfm.dart';
 import 'package:http/http.dart' as http;
 
 void main() {
