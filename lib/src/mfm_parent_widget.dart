@@ -43,7 +43,8 @@ class MfmParentWidgetState extends State<MfmParentWidget> {
         child: Text.rich(
           TextSpan(style: style, children: [
             WidgetSpan(
-              alignment: PlaceholderAlignment.middle,
+              alignment: PlaceholderAlignment.aboveBaseline,
+              baseline: TextBaseline.alphabetic,
               child: MfmElementWidget(
                 nodes: actualNode,
                 style: style,

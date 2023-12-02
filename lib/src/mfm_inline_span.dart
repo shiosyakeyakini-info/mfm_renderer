@@ -141,7 +141,6 @@ class MfmInlineSpan extends TextSpan {
         else if (node is MfmEmojiCode)
           WidgetSpan(
               alignment: PlaceholderAlignment.middle,
-              baseline: TextBaseline.ideographic,
               child: DefaultTextStyle(
                   style: style ?? const TextStyle(),
                   child: (Mfm.of(context).emojiBuilder ?? _defaultEmojiBuilder)
@@ -239,10 +238,10 @@ class MfmInlineSpan extends TextSpan {
           TextSpan(style: style?.merge(Mfm.of(context).linkStyle ?? TextStyle(color: Theme.of(context).primaryColor)), text: node.value.decodeUri.tight, recognizer: TapGestureRecognizer()..onTap = () => Mfm.of(context).linkTap?.call(node.value))
         else if (node is MfmFn)
           MfmFnSpan(context: context, style: style, function: node, depth: depth + 1)
-        else if(node is MfmMathBlock)
+        else if (node is MfmMathBlock)
           TextSpan(style: style, text: node.formula)
-        else if(node is MfmMathInline)
-          TextSpan(style:style, text: node.formula)
+        else if (node is MfmMathInline)
+          TextSpan(style: style, text: node.formula)
         else
           WidgetSpan(
               alignment: PlaceholderAlignment.baseline,

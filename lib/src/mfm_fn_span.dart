@@ -42,11 +42,9 @@ class MfmFnSpan extends TextSpan {
       if (node is MfmText) {
         if (node.text.contains("\n")) {
           return true;
-        } else {
-          return findChildrenNewLine(node.children ?? []);
         }
-      } else if (node is MfmEmojiCode) {
-        return true;
+      } else {
+        return findChildrenNewLine(node.children ?? []);
       }
     }
     return false;
@@ -127,7 +125,7 @@ class MfmFnSpan extends TextSpan {
         WidgetSpan(
           style: style,
           alignment: resolveAlignment(function.children ?? []),
-          baseline: TextBaseline.ideographic,
+          baseline: TextBaseline.alphabetic,
           child: Container(
             decoration:
                 BoxDecoration(color: (function.args["color"] as String?).color),
@@ -213,7 +211,7 @@ class MfmFnSpan extends TextSpan {
       return [
         WidgetSpan(
           alignment: resolveAlignment(function.children ?? []),
-          baseline: TextBaseline.ideographic,
+          baseline: TextBaseline.alphabetic,
           child: Transform.translate(
             offset: Offset(x * defaultFontSize, y * defaultFontSize),
             child: MfmElementWidget(
