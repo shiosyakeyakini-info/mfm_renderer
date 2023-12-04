@@ -1,6 +1,6 @@
 name: mfm
 description: A MFM (Misskey Flavored Markup language) Renderer for Flutter.
-version: 1.0.3
+version: 1.0.4
 homepage: https://github.com/shiosyakeyakini-info/mfm_renderer
 
 environment:

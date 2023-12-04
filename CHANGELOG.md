@@ -1,3 +1,7 @@
+## 1.0.4
+
+* Fix nyaize
+
 ## 1.0.3
 
 * Update Readme
