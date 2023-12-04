@@ -21,7 +21,7 @@ extension StringExtensions on String {
             .replaceAll('ナ', 'ニャ')
             .replaceAll('ﾅ', 'ﾆｬ')
             // en-US
-            .replaceAllMapped(RegExp("(?<=[nN])[aA]/"),
+            .replaceAllMapped(RegExp("(?<=[nN])[aA]"),
                 (x) => x.group(0) == 'A' ? 'YA' : 'ya')
             .replaceAllMapped(RegExp("(?<=morn)ing"),
                 (x) => x.group(0) == "ING" ? "YAN" : "yan")
