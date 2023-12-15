@@ -228,12 +228,15 @@ class MfmFnSpan extends TextSpan {
       final speed = Mfm.of(context).isUseAnimation
           ? validTime(function.args["speed"]) ?? 1
           : 0.0;
+
+      final delay = validTime(function.args["delay"]) ?? 0;
       return [
         WidgetSpan(
             alignment: resolveAlignment(function.children ?? []),
             baseline: TextBaseline.alphabetic,
             child: MfmFnTada(
               speed: speed,
+              delay: delay,
               child: MfmElementWidget(
                 nodes: function.children,
                 style: style
@@ -390,11 +393,13 @@ class MfmFnSpan extends TextSpan {
 
     if (function.name == "rainbow" && Mfm.of(context).isUseAnimation) {
       final speed = validTime(function.args["speed"]) ?? 1;
+      final delay = validTime(function.args["delay"]) ?? 0;
       return [
         WidgetSpan(
             alignment: PlaceholderAlignment.middle,
             child: MfmRainbow(
               speed: speed,
+              delay: delay,
               child: MfmElementWidget(
                   nodes: function.children, style: style, depth: depth + 1),
             ))
@@ -403,11 +408,13 @@ class MfmFnSpan extends TextSpan {
 
     if (function.name == "shake" && Mfm.of(context).isUseAnimation) {
       final speed = validTime(function.args["speed"]) ?? 0.5;
+      final delay = validTime(function.args["delay"]) ?? 0;
       return [
         WidgetSpan(
             alignment: PlaceholderAlignment.middle,
             child: MfmFnShake(
               speed: speed,
+              delay: delay,
               child: MfmElementWidget(
                   nodes: function.children, style: style, depth: depth + 1),
             ))
@@ -416,11 +423,13 @@ class MfmFnSpan extends TextSpan {
 
     if (function.name == "jelly" && Mfm.of(context).isUseAnimation) {
       final speed = validTime(function.args["speed"]) ?? 1.0;
+      final delay = validTime(function.args["delay"]) ?? 0;
       return [
         WidgetSpan(
             alignment: PlaceholderAlignment.middle,
             child: MfmFnJelly(
               speed: speed,
+              delay: delay,
               child: MfmElementWidget(
                   nodes: function.children, style: style, depth: depth + 1),
             ))
@@ -429,11 +438,13 @@ class MfmFnSpan extends TextSpan {
 
     if (function.name == "twitch" && Mfm.of(context).isUseAnimation) {
       final speed = validTime(function.args["speed"]) ?? 0.5;
+      final delay = validTime(function.args["delay"]) ?? 0;
       return [
         WidgetSpan(
             alignment: PlaceholderAlignment.middle,
             child: MfmFnTwitch(
               speed: speed,
+              delay: delay,
               child: MfmElementWidget(
                   nodes: function.children, style: style, depth: depth + 1),
             ))
@@ -442,11 +453,13 @@ class MfmFnSpan extends TextSpan {
 
     if (function.name == "bounce" && Mfm.of(context).isUseAnimation) {
       final speed = validTime(function.args["speed"]) ?? 0.75;
+      final delay = validTime(function.args["delay"]) ?? 0;
       return [
         WidgetSpan(
             alignment: PlaceholderAlignment.middle,
             child: MfmFnBounce(
               speed: speed,
+              delay: delay,
               child: MfmElementWidget(
                   nodes: function.children, style: style, depth: depth + 1),
             ))
@@ -455,11 +468,13 @@ class MfmFnSpan extends TextSpan {
 
     if (function.name == "jump" && Mfm.of(context).isUseAnimation) {
       final speed = validTime(function.args["speed"]) ?? 0.75;
+      final delay = validTime(function.args["delay"]) ?? 0;
       return [
         WidgetSpan(
             alignment: PlaceholderAlignment.middle,
             child: MfmFnJump(
               speed: speed,
+              delay: delay,
               child: MfmElementWidget(
                   nodes: function.children, style: style, depth: depth + 1),
             ))
@@ -468,6 +483,7 @@ class MfmFnSpan extends TextSpan {
 
     if (function.name == "spin" && Mfm.of(context).isUseAnimation) {
       final speed = validTime(function.args["speed"]) ?? 1.5;
+      final delay = validTime(function.args["delay"]) ?? 0;
       final type = function.args.containsKey("x")
           ? MfmFnSpinType.x
           : function.args.containsKey("y")
@@ -483,6 +499,7 @@ class MfmFnSpan extends TextSpan {
             alignment: PlaceholderAlignment.middle,
             child: MfmFnSpin(
               speed: speed,
+              delay: delay,
               direction: direction,
               type: type,
               child: MfmElementWidget(

@@ -7,8 +7,13 @@ class MfmFnTada extends StatefulWidget {
   final Widget child;
 
   final double speed;
+  final double delay;
 
-  const MfmFnTada({super.key, required this.child, required this.speed});
+  const MfmFnTada(
+      {super.key,
+      required this.child,
+      required this.speed,
+      required this.delay});
 
   @override
   State<StatefulWidget> createState() => MfmFnTadaState();
@@ -62,11 +67,16 @@ class MfmFnTadaState extends State<MfmFnTada> with TickerProviderStateMixin {
     _controller = AnimationController(
         vsync: this,
         duration:
-            Duration(milliseconds: (widget.speed * 1000).toInt().if0(999)))
-      ..repeat();
+            Duration(milliseconds: (widget.speed * 1000).toInt().if0(999)));
 
     _scaleAnimation = _controller.drive(_scaleSequence);
     _rotateAnimation = _controller.drive(_rotateSequence);
+
+    Future(() async {
+      await Future.delayed(
+          Duration(milliseconds: (widget.delay * 1000).toInt()));
+      _controller.repeat();
+    });
   }
 
   @override
@@ -76,7 +86,11 @@ class MfmFnTadaState extends State<MfmFnTada> with TickerProviderStateMixin {
     _controller.duration =
         Duration(milliseconds: (widget.speed * 1000).toInt().if0(999));
     _controller.reset();
-    _controller.repeat();
+    Future(() async {
+      await Future.delayed(
+          Duration(milliseconds: (widget.delay * 1000).toInt()));
+      _controller.repeat();
+    });
   }
 
   @override

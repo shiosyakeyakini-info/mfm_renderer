@@ -7,8 +7,13 @@ class MfmRainbow extends StatefulWidget {
   final Widget child;
 
   final double speed;
+  final double delay;
 
-  const MfmRainbow({super.key, required this.child, required this.speed});
+  const MfmRainbow(
+      {super.key,
+      required this.child,
+      required this.speed,
+      required this.delay});
 
   @override
   State<StatefulWidget> createState() => MfmRainbowState();
@@ -24,8 +29,13 @@ class MfmRainbowState extends State<MfmRainbow> with TickerProviderStateMixin {
     _controller = AnimationController(
         vsync: this,
         duration:
-            Duration(milliseconds: (widget.speed * 1000).toInt().if0(999)))
-      ..repeat();
+            Duration(milliseconds: (widget.speed * 1000).toInt().if0(999)));
+
+    Future(() async {
+      await Future.delayed(
+          Duration(milliseconds: (widget.delay * 1000).toInt()));
+      _controller.repeat();
+    });
   }
 
   @override
@@ -35,7 +45,12 @@ class MfmRainbowState extends State<MfmRainbow> with TickerProviderStateMixin {
     _controller.duration =
         Duration(milliseconds: (widget.speed * 1000).toInt().if0(999));
     _controller.reset();
-    _controller.repeat();
+
+    Future(() async {
+      await Future.delayed(
+          Duration(milliseconds: (widget.delay * 1000).toInt()));
+      _controller.repeat();
+    });
   }
 
   @override

@@ -5,8 +5,13 @@ class MfmFnBounce extends StatefulWidget {
   final Widget child;
 
   final double speed;
+  final double delay;
 
-  const MfmFnBounce({super.key, required this.child, required this.speed});
+  const MfmFnBounce(
+      {super.key,
+      required this.child,
+      required this.speed,
+      required this.delay});
 
   @override
   State<StatefulWidget> createState() => MfmFnBounceState();
@@ -53,12 +58,17 @@ class MfmFnBounceState extends State<MfmFnBounce>
     _controller = AnimationController(
         vsync: this,
         duration:
-            Duration(milliseconds: (widget.speed * 1000).toInt().if0(999)))
-      ..repeat();
+            Duration(milliseconds: (widget.speed * 1000).toInt().if0(999)));
 
     _translateYAnimation = _controller.drive(_translateYSequence);
     _scaleXAnimation = _controller.drive(_scaleXSequence);
     _scaleYAnimation = _controller.drive(_scaleYSequence);
+
+    Future(() async {
+      await Future.delayed(
+          Duration(milliseconds: (widget.delay * 1000).toInt()));
+      _controller.repeat();
+    });
   }
 
   @override
@@ -68,7 +78,12 @@ class MfmFnBounceState extends State<MfmFnBounce>
     _controller.duration =
         Duration(milliseconds: (widget.speed * 1000).toInt().if0(999));
     _controller.reset();
-    _controller.repeat();
+
+    Future(() async {
+      await Future.delayed(
+          Duration(milliseconds: (widget.delay * 1000).toInt()));
+      _controller.repeat();
+    });
   }
 
   @override
