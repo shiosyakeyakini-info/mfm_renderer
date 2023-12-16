@@ -1,3 +1,7 @@
+## 1.0.5
+
+* Add delay option in tada, jelly, twitch, shake, spin, jump, bounce, rainbow
+
 ## 1.0.4
 
 * Fix nyaize
