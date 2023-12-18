@@ -1,3 +1,7 @@
+## 1.0.5+1
+
+* Fix did not spin in `spin`
+
 ## 1.0.5
 
 * Add delay option in tada, jelly, twitch, shake, spin, jump, bounce, rainbow

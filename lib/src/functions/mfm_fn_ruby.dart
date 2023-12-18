@@ -63,7 +63,9 @@ class MfmFnRubyState extends State<MfmFnRuby> {
   Widget build(BuildContext context) {
     final size = (_key.currentContext?.findRenderObject() as RenderBox?)?.size;
     if (_width != size?.width) {
-      scheduleMicrotask(() => setState(() => _width = (size?.width ?? 0)));
+      scheduleMicrotask(() {
+        if (mounted) setState(() => _width = (size?.width ?? 0));
+      });
     }
     return Column(
       mainAxisSize: MainAxisSize.max,

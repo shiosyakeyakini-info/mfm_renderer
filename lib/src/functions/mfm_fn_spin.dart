@@ -53,29 +53,31 @@ class MfmFnSpinState extends State<MfmFnSpin> with TickerProviderStateMixin {
   void startAnimation() {
     _controller?.stop();
     _controller?.dispose();
-    final controller = AnimationController(
-        vsync: this,
-        duration: Duration(
-            milliseconds: (widget.speed * 1000).toInt().if0(999) *
-                (widget.direction == MfmFnSpinDirection.alternate ? 2 : 1)));
+    _controller = null;
 
     Future(() async {
+      final controller = AnimationController(
+          vsync: this,
+          duration: Duration(
+              milliseconds: (widget.speed * 1000).toInt().if0(999) *
+                  (widget.direction == MfmFnSpinDirection.alternate ? 2 : 1)));
       await Future.delayed(
           Duration(milliseconds: (widget.delay * 1000).toInt()));
 
       if (widget.direction == MfmFnSpinDirection.reverse) {
-        controller.repeat();
         _rotationAnimation = controller.drive(_rotationReverseSequence);
+        controller.repeat();
       } else if (widget.direction == MfmFnSpinDirection.alternate) {
-        controller.repeat();
         _rotationAnimation = controller.drive(_rotationAlternativeSequence);
-      } else if (widget.direction == MfmFnSpinDirection.normal) {
         controller.repeat();
+      } else if (widget.direction == MfmFnSpinDirection.normal) {
         _rotationAnimation = controller.drive(_rotationSequence);
+        controller.repeat();
       }
+      setState(() {
+        _controller = controller;
+      });
     });
-
-    _controller = controller;
   }
 
   @override
