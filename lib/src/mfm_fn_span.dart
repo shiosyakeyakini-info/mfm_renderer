@@ -330,7 +330,7 @@ class MfmFnSpan extends TextSpan {
 
       if (children.length == 1) {
         final child = children[0];
-        text = child is MfmText ? child.text : "";
+        text = child is MfmText ? child.text.nyaize : "";
 
         final splited = text.split(' ');
 
@@ -344,7 +344,7 @@ class MfmFnSpan extends TextSpan {
               style: style,
               child: Text.rich(
                 textScaler: TextScaler.noScaling,
-                TextSpan(text: splited[0]),
+                TextSpan(text: splited[0].nyaize),
                 style: style?.copyWith(height: 1.2),
               ),
             ),
@@ -352,7 +352,7 @@ class MfmFnSpan extends TextSpan {
         ];
       } else {
         final rt = children.last;
-        text = rt is MfmText ? rt.text : "";
+        text = rt is MfmText ? rt.text.nyaize : "";
 
         return [
           WidgetSpan(

@@ -1,3 +1,7 @@
+## 1.0.6
+
+* Nyaize in `$[ruby]` text
+
 ## 1.0.5+1
 
 * Fix did not spin in `spin`
