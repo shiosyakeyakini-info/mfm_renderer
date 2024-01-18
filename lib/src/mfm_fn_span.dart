@@ -112,7 +112,7 @@ class MfmFnSpan extends TextSpan {
           child: MfmElementWidget(
             nodes: function.children,
             style: style?.merge(TextStyle(
-                color: (function.args["color"] as String?)?.color,
+                color: (function.args["color"] as String?)?.color ?? Colors.red,
                 height: Mfm.of(context).lineHeight)),
             depth: depth + 1,
           ),
@@ -127,8 +127,9 @@ class MfmFnSpan extends TextSpan {
           alignment: resolveAlignment(function.children ?? []),
           baseline: TextBaseline.alphabetic,
           child: Container(
-            decoration:
-                BoxDecoration(color: (function.args["color"] as String?).color),
+            decoration: BoxDecoration(
+              color: (function.args["color"] as String?).color ?? Colors.red,
+            ),
             child: MfmElementWidget(
               nodes: function.children,
               style: style?.copyWith(height: Mfm.of(context).lineHeight),
