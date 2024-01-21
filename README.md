@@ -30,6 +30,7 @@ This package supports these MFM syntaxes.
 - MFM Animations
   - `$[rainbow]` `$[shake]` `$[jelly]` `$[twitch]` `$[bounce]` `$[jump]` `$[spin]` and `$[spakle]`
 - Nyaize these items (such as `なんなん` to `にゃんにゃん`) if you want.
+- Inline Border `$[border]`
 
 ## Getting started
 

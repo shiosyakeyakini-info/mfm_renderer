@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:mfm/src/functions/mfm_fn_border.dart';
 import 'package:mfm_parser/mfm_parser.dart';
 import 'package:mfm/mfm.dart';
 import 'package:mfm/src/extension/string_extension.dart';
@@ -133,6 +134,41 @@ class MfmFnSpan extends TextSpan {
               nodes: function.children,
               style: style?.copyWith(height: Mfm.of(context).lineHeight),
               depth: depth + 1,
+            ),
+          ),
+        )
+      ];
+    }
+
+    if (function.name == "border") {
+      final color = (function.args["color"] as String?)?.color ??
+          Mfm.of(context).defaultBorderColor;
+      final styleIndex = MfmFnBorderStyle.values
+          .map((e) => e.name)
+          .toList()
+          .indexOf(function.args["style"] ?? "solid");
+      final borderStyle = styleIndex == -1
+          ? MfmFnBorderStyle.solid
+          : MfmFnBorderStyle.values[styleIndex];
+      final width = double.tryParse(function.args["width"] ?? "1") ?? 1.0;
+      final radius = double.tryParse(function.args["radius"] ?? "0") ?? 0.0;
+      final isClip = function.args["noclip"] == null;
+
+      return [
+        WidgetSpan(
+          style: style,
+          alignment: resolveAlignment(function.children ?? []),
+          baseline: TextBaseline.alphabetic,
+          child: MfmFnBorder(
+            color: color,
+            style: borderStyle,
+            width: width,
+            radius: radius,
+            isClip: isClip,
+            child: MfmElementWidget(
+              nodes: function.children,
+              depth: depth + 1,
+              style: style?.copyWith(height: Mfm.of(context).lineHeight),
             ),
           ),
         )

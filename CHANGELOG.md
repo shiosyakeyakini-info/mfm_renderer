@@ -1,3 +1,9 @@
+## 1.0.7
+
+* Support `$[border]`
+* Fix unconditionally nyaization in `$[ruby]`
+* Fix color when give strange color
+
 ## 1.0.6
 
 * Nyaize in `$[ruby]` text

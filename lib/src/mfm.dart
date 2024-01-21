@@ -137,6 +137,9 @@ class Mfm extends InheritedWidget {
   // use animation statement.
   final bool isUseAnimation;
 
+  // default `$[border]` color
+  final Color defaultBorderColor;
+
   /// See [Text.overflow]
   final TextOverflow? overflow;
 
@@ -174,6 +177,7 @@ class Mfm extends InheritedWidget {
     this.prefixSpan = const [],
     this.suffixSpan = const [],
     this.isUseAnimation = true,
+    this.defaultBorderColor = Colors.purpleAccent,
     this.overflow,
     this.maxLines,
   })  : assert(
@@ -204,6 +208,7 @@ class Mfm extends InheritedWidget {
         oldWidget.mentionTap != mentionTap ||
         oldWidget.hashtagTap != hashtagTap ||
         oldWidget.linkTap != linkTap ||
+        oldWidget.defaultBorderColor != defaultBorderColor ||
         oldWidget.isUseAnimation != isUseAnimation;
   }
 
