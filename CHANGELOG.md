@@ -1,3 +1,7 @@
+## 1.0.7+1
+
+* Hide border when `$[border.width=0 ]`
+
 ## 1.0.7
 
 * Support `$[border]`

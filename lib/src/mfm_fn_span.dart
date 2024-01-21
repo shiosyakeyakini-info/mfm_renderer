@@ -151,7 +151,9 @@ class MfmFnSpan extends TextSpan {
       final borderStyle = styleIndex == -1
           ? MfmFnBorderStyle.solid
           : MfmFnBorderStyle.values[styleIndex];
-      final width = double.tryParse(function.args["width"] ?? "1") ?? 1.0;
+      final width = function.args["width"]?.isEmpty == true
+          ? 0.0
+          : double.tryParse(function.args["width"] ?? "1") ?? 1.0;
       final radius = double.tryParse(function.args["radius"] ?? "0") ?? 0.0;
       final isClip = function.args["noclip"] == null;
 
