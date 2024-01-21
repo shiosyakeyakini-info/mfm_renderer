@@ -108,24 +108,31 @@ class MfmFnBorder extends StatelessWidget {
             radius: radius, padding: width, isClip: isClip, child: child);
       case MfmFnBorderStyle.solid:
         return DecoratedBox(
-            decoration: BoxDecoration(
-                border: Border.all(color: color, width: width),
-                borderRadius:
-                    radius != 0 ? BorderRadius.circular(radius) : null),
+            decoration: width == 0
+                ? const BoxDecoration()
+                : BoxDecoration(
+                    border: Border.all(color: color, width: width),
+                    borderRadius:
+                        radius != 0 ? BorderRadius.circular(radius) : null),
             child: MfmFnBorderInner(
                 radius: radius, padding: width, isClip: isClip, child: child));
       case MfmFnBorderStyle.double:
         return DecoratedBox(
-          decoration: BoxDecoration(
-              border: Border.all(color: color, width: width / 3),
-              borderRadius: radius != 0 ? BorderRadius.circular(radius) : null),
-          child: Padding(
-            padding: EdgeInsets.all(width * 2 / 3),
-            child: DecoratedBox(
-              decoration: BoxDecoration(
+          decoration: width == 0
+              ? const BoxDecoration()
+              : BoxDecoration(
                   border: Border.all(color: color, width: width / 3),
                   borderRadius:
                       radius != 0 ? BorderRadius.circular(radius) : null),
+          child: Padding(
+            padding: EdgeInsets.all(width * 2 / 3),
+            child: DecoratedBox(
+              decoration: width == 0
+                  ? const BoxDecoration()
+                  : BoxDecoration(
+                      border: Border.all(color: color, width: width / 3),
+                      borderRadius:
+                          radius != 0 ? BorderRadius.circular(radius) : null),
               child: MfmFnBorderInner(
                   radius: radius,
                   padding: width / 3,
