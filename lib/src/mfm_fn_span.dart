@@ -324,14 +324,17 @@ class MfmFnSpan extends TextSpan {
     if (function.name == "ruby") {
       final children = function.children;
       if (children == null) return [];
-      final String text;
       final alignment = findChildrenNewLine(function.children ?? [])
           ? PlaceholderAlignment.middle
           : PlaceholderAlignment.aboveBaseline;
 
       if (children.length == 1) {
         final child = children[0];
-        text = child is MfmText ? child.text.nyaize : "";
+        final text = child is MfmText
+            ? Mfm.of(context).isNyaize
+                ? child.text.nyaize
+                : child.text
+            : "";
 
         final splited = text.split(' ');
 
@@ -345,7 +348,7 @@ class MfmFnSpan extends TextSpan {
               style: style,
               child: Text.rich(
                 textScaler: TextScaler.noScaling,
-                TextSpan(text: splited[0].nyaize),
+                TextSpan(text: splited[0]),
                 style: style?.copyWith(height: 1.2),
               ),
             ),
@@ -353,7 +356,11 @@ class MfmFnSpan extends TextSpan {
         ];
       } else {
         final rt = children.last;
-        text = rt is MfmText ? rt.text.nyaize : "";
+        final text = rt is MfmText
+            ? Mfm.of(context).isNyaize
+                ? rt.text.nyaize
+                : rt.text
+            : "";
 
         return [
           WidgetSpan(
