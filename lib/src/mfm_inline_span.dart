@@ -224,13 +224,15 @@ class MfmInlineSpan extends TextSpan {
             baseline: TextBaseline.alphabetic,
             child: GestureDetector(
               onTap: () => Mfm.of(context).linkTap?.call(node.url),
-              child: MfmElementWidget(
-                style: style?.merge(
-                  Mfm.of(context).linkStyle ??
-                      TextStyle(color: Theme.of(context).primaryColor),
+              child: AbsorbPointer(
+                child: MfmElementWidget(
+                  style: style?.merge(
+                    Mfm.of(context).linkStyle ??
+                        TextStyle(color: Theme.of(context).primaryColor),
+                  ),
+                  nodes: node.children,
+                  depth: depth + 1,
                 ),
-                nodes: node.children,
-                depth: depth + 1,
               ),
             ),
           )
