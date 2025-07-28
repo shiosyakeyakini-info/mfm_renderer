@@ -24,9 +24,9 @@ class MfmFnBorder extends StatelessWidget {
   final bool isClip;
 
   double _luminance() {
-    return (0.298912 * color.red / 255 +
-        0.586611 * color.green / 255 +
-        0.114478 * color.blue / 255);
+    return (0.298912 * ((color.r * 255.0).round() & 0xff) / 255 +
+        0.586611 * ((color.g * 255.0).round() & 0xff) / 255 +
+        0.114478 * ((color.b * 255.0).round() & 0xff) / 255);
   }
 
   Color _lightSide() {
@@ -34,9 +34,12 @@ class MfmFnBorder extends StatelessWidget {
       return color;
     }
     return Color.fromRGBO(
-        color.red + (255 - color.red) ~/ 3,
-        color.green + (255 - color.green) ~/ 3,
-        color.blue + (255 - color.blue) ~/ 3,
+        ((color.r * 255.0).round() & 0xff) +
+            (255 - ((color.r * 255.0).round() & 0xff)) ~/ 3,
+        ((color.g * 255.0).round() & 0xff) +
+            (255 - ((color.g * 255.0).round() & 0xff)) ~/ 3,
+        ((color.b * 255.0).round() & 0xff) +
+            (255 - ((color.b * 255.0).round() & 0xff)) ~/ 3,
         1);
   }
 
@@ -45,8 +48,14 @@ class MfmFnBorder extends StatelessWidget {
       return color;
     }
 
-    return Color.fromRGBO(color.red - color.red ~/ 3,
-        color.green - color.green ~/ 3, color.blue - color.blue ~/ 3, 1);
+    return Color.fromRGBO(
+        ((color.r * 255.0).round() & 0xff) -
+            (((color.r * 255.0).round() & 0xff) ~/ 3),
+        ((color.g * 255.0).round() & 0xff) -
+            (((color.g * 255.0).round() & 0xff) ~/ 3),
+        ((color.b * 255.0).round() & 0xff) -
+            (((color.b * 255.0).round() & 0xff) ~/ 3),
+        1);
   }
 
   BoxDecoration _generate3dBoxDecoration(
@@ -143,11 +152,18 @@ class MfmFnBorder extends StatelessWidget {
         );
       case MfmFnBorderStyle.dashed:
         return DottedBorder(
-          borderType: radius == 0 ? BorderType.Rect : BorderType.RRect,
-          radius: Radius.circular(radius),
-          strokeWidth: width,
-          dashPattern: [width * 2.5, width],
-          color: color,
+          options: radius == 0
+              ? RectDottedBorderOptions(
+                  strokeWidth: width,
+                  dashPattern: [width * 2.5, width],
+                  color: color,
+                )
+              : RoundedRectDottedBorderOptions(
+                  radius: Radius.circular(radius),
+                  strokeWidth: width,
+                  dashPattern: [width * 2.5, width],
+                  color: color,
+                ),
           child: MfmFnBorderInner(
               radius: radius,
               padding: 0,
@@ -229,12 +245,20 @@ class MfmFnBorder extends StatelessWidget {
         );
       case MfmFnBorderStyle.dotted:
         return DottedBorder(
-            borderType: radius == 0 ? BorderType.Rect : BorderType.RRect,
-            radius: Radius.circular(radius),
-            strokeWidth: width,
-            dashPattern: [max(1, width / 10), width * 2],
-            color: color,
-            strokeCap: StrokeCap.round,
+            options: radius == 0
+                ? RectDottedBorderOptions(
+                    strokeWidth: width,
+                    dashPattern: [max(1, width / 10), width * 2],
+                    color: color,
+                    strokeCap: StrokeCap.round,
+                  )
+                : RoundedRectDottedBorderOptions(
+                    radius: Radius.circular(radius),
+                    strokeWidth: width,
+                    dashPattern: [max(1, width / 10), width * 2],
+                    color: color,
+                    strokeCap: StrokeCap.round,
+                  ),
             child: MfmFnBorderInner(
                 radius: radius,
                 padding: 0,

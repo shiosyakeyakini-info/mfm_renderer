@@ -53,7 +53,9 @@ class SimpleMfmScope extends State<SimpleMfm> {
   @override
   Widget build(BuildContext context) {
     return MediaQuery(
-      data: const MediaQueryData(textScaleFactor: 1.0),
+      data: const MediaQueryData(
+        textScaler: TextScaler.linear(1),
+      ),
       child: DefaultTextStyle.merge(
         style: widget.style,
         child: Text.rich(
@@ -78,7 +80,7 @@ class SimpleMfmScope extends State<SimpleMfm> {
                     text: widget.isNyaize ? element.text.nyaize : element.text),
             ...widget.suffixSpan,
           ]),
-          textScaleFactor: MediaQuery.of(context).textScaleFactor,
+          textScaler: MediaQuery.of(context).textScaler,
           style: widget.style,
         ),
       ),

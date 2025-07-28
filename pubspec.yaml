@@ -9,7 +9,7 @@ environment:
 
 dependencies:
   colorfilter_generator: ^0.0.8
-  dotted_border: ^2.1.0
+  dotted_border: ^3.0.1
   flutter:
     sdk: flutter
   mfm_parser: ^1.0.3
