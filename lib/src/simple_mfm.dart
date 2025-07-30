@@ -54,7 +54,7 @@ class SimpleMfmScope extends State<SimpleMfm> {
   Widget build(BuildContext context) {
     return MediaQuery(
       data: const MediaQueryData(
-        textScaler: TextScaler.linear(1),
+        textScaler: TextScaler.noScaling,
       ),
       child: DefaultTextStyle.merge(
         style: widget.style,
