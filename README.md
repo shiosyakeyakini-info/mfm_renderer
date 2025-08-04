@@ -1,4 +1,4 @@
-This package is [MFM](https://misskey-hub.net/en/docs/features/mfm.html) renderer for Flutter.
+This package is [MFM](https://misskey-hub.net/en/docs/for-users/features/mfm/) renderer for Flutter.
 
 <img src="https://raw.githubusercontent.com/shiosyakeyakini-info/mfm_renderer/main/doc/assets/example.png" height="512">
 <img src="https://raw.githubusercontent.com/shiosyakeyakini-info/mfm_renderer/main/doc/assets/animation_example.gif" />
