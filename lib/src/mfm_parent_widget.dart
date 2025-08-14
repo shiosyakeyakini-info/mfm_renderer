@@ -33,7 +33,7 @@ class MfmParentWidgetState extends State<MfmParentWidget> {
         .merge(const TextStyle(height: 0));
 
     final scaledStyle = style.copyWith(
-        fontSize: style.fontSize! * MediaQuery.of(context).textScaleFactor);
+        fontSize: MediaQuery.of(context).textScaler.scale(style.fontSize!));
 
     return MfmFnBlurStateScope(
       child: DefaultTextStyle.merge(
@@ -53,7 +53,7 @@ class MfmParentWidgetState extends State<MfmParentWidget> {
             ),
           ]),
           strutStyle: StrutStyle(height: Mfm.of(context).lineHeight),
-          textScaleFactor: MediaQuery.of(context).textScaleFactor,
+          textScaler: MediaQuery.of(context).textScaler,
         ),
       ),
     );

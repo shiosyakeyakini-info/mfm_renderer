@@ -39,7 +39,7 @@ class MfmElementWidgetState extends State<MfmElementWidget> {
     return Text.rich(
       inlineSpan!,
       textAlign: MfmAlignScope.of(context),
-      textScaleFactor: 1,
+      textScaler: TextScaler.noScaling,
     );
   }
 }

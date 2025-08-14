@@ -30,7 +30,9 @@ class MfmFnSparkleState extends State<MfmFnSparkle>
       final targetOffset = renderBox.localToGlobal(Offset.zero);
       if (targetOffset.dx.isNaN ||
           targetOffset.dy.isNaN ||
-          renderBox.size.width.isNaN) return;
+          renderBox.size.width.isNaN) {
+        return;
+      }
 
       final entry = OverlayEntry(builder: (context) {
         return Positioned(
