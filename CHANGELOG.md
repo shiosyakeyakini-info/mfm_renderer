@@ -1,9 +1,7 @@
-## Unreleased (unreleased — HEAD f8d1315, 2025-08-24)
+## 1.0.8
 
-- Add MouseRegion and Tooltip to link blocks (コミット: f6c6796, merged via PR #6).
-- Update `dotted_border` usage and dependency bumps; related fixes and internal refactors (コミット: 6cf5cd9, 0ed8472).
-- Add `noScaling` option for `liner` (コミット: 8893c87).
-- Code changes in: `lib/src/mfm_element_widget.dart`, `lib/src/mfm_inline_span.dart`, `lib/src/simple_mfm.dart`, `lib/src/functions/mfm_fn_border.dart`, `lib/src/functions/mfm_fn_sparkle.dart`, `lib/src/extension/string_extension.dart`, `lib/src/mfm_parent_widget.dart`, and `pubspec.yaml`.
+- Add MouseRegion and Tooltip to link blocks.
+- Update `dotted_border` usage and dependency bumps; related fixes and internal refactors.
 
 ## 1.0.7+1
 
