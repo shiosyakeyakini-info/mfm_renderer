@@ -111,12 +111,15 @@ class MfmFnBorder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    late final Widget result;
+
     switch (style) {
       case MfmFnBorderStyle.hidden:
-        return MfmFnBorderInner(
+        result = MfmFnBorderInner(
             radius: radius, padding: width, isClip: isClip, child: child);
+        break;
       case MfmFnBorderStyle.solid:
-        return DecoratedBox(
+        result = DecoratedBox(
             decoration: width == 0
                 ? const BoxDecoration()
                 : BoxDecoration(
@@ -125,8 +128,9 @@ class MfmFnBorder extends StatelessWidget {
                         radius != 0 ? BorderRadius.circular(radius) : null),
             child: MfmFnBorderInner(
                 radius: radius, padding: width, isClip: isClip, child: child));
+        break;
       case MfmFnBorderStyle.double:
-        return DecoratedBox(
+        result = DecoratedBox(
           decoration: width == 0
               ? const BoxDecoration()
               : BoxDecoration(
@@ -150,8 +154,9 @@ class MfmFnBorder extends StatelessWidget {
             ),
           ),
         );
+        break;
       case MfmFnBorderStyle.dashed:
-        return DottedBorder(
+        result = DottedBorder(
           options: radius == 0
               ? RectDottedBorderOptions(
                   strokeWidth: width,
@@ -171,8 +176,9 @@ class MfmFnBorder extends StatelessWidget {
               isClip: isClip,
               child: child),
         );
+        break;
       case MfmFnBorderStyle.inset:
-        return DecoratedBox(
+        result = DecoratedBox(
           decoration:
               _generate3dBoxDecoration(width, _darkSide(), _lightSide()),
           child: _ifBorderRadiusHas(
@@ -184,8 +190,9 @@ class MfmFnBorder extends StatelessWidget {
             ),
           ),
         );
+        break;
       case MfmFnBorderStyle.outset:
-        return DecoratedBox(
+        result = DecoratedBox(
           decoration:
               _generate3dBoxDecoration(width, _lightSide(), _darkSide()),
           child: _ifBorderRadiusHas(
@@ -196,8 +203,9 @@ class MfmFnBorder extends StatelessWidget {
                 child: widget),
           ),
         );
+        break;
       case MfmFnBorderStyle.groove:
-        return DecoratedBox(
+        result = DecoratedBox(
           decoration:
               _generate3dBoxDecoration(width / 2, _darkSide(), _lightSide()),
           child: _ifBorderRadiusHas(
@@ -219,9 +227,10 @@ class MfmFnBorder extends StatelessWidget {
             forcePadding: width / 2,
           ),
         );
+        break;
 
       case MfmFnBorderStyle.ridge:
-        return DecoratedBox(
+        result = DecoratedBox(
           decoration:
               _generate3dBoxDecoration(width / 2, _lightSide(), _darkSide()),
           child: _ifBorderRadiusHas(
@@ -243,8 +252,9 @@ class MfmFnBorder extends StatelessWidget {
             forcePadding: width / 2,
           ),
         );
+        break;
       case MfmFnBorderStyle.dotted:
-        return DottedBorder(
+        result = DottedBorder(
             options: radius == 0
                 ? RectDottedBorderOptions(
                     strokeWidth: width,
@@ -265,10 +275,10 @@ class MfmFnBorder extends StatelessWidget {
                 clipPadding: width * 2,
                 isClip: isClip,
                 child: child));
-      default:
-        return MfmFnBorderInner(
-            radius: radius, padding: width, isClip: isClip, child: child);
+        break;
     }
+
+    return result;
   }
 }
 

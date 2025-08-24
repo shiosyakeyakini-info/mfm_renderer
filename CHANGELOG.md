@@ -3,6 +3,11 @@
 - Add MouseRegion and Tooltip to link blocks.
 - Update `dotted_border` usage and dependency bumps; related fixes and internal refactors.
 
+## 1.0.9
+
+- Bump `mfm_parser` to 1.0.6.
+- Fix analyzer warning in `mfm_fn_border.dart` (remove unreachable default case).
+
 ## 1.0.7+1
 
 * Hide border when `$[border.width=0 ]`
