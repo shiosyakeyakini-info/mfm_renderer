@@ -1,6 +1,6 @@
 {
-    "name": "example",
-    "short_name": "example",
+    "name": "mfm_renderer",
+    "short_name": "mfm_renderer",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
