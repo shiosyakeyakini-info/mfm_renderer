@@ -12,6 +12,8 @@ class SimpleMfm extends StatefulWidget {
   final List<InlineSpan> suffixSpan;
   final List<InlineSpan> prefixSpan;
   final bool isNyaize;
+  final TextOverflow? overflow;
+  final int? maxLines;
 
   const SimpleMfm(
     this.mfmText, {
@@ -22,6 +24,8 @@ class SimpleMfm extends StatefulWidget {
     this.isNyaize = false,
     this.suffixSpan = const [],
     this.prefixSpan = const [],
+    this.overflow,
+    this.maxLines,
   });
 
   @override
@@ -44,6 +48,8 @@ class SimpleMfmScope extends State<SimpleMfm> {
         oldWidget.style != widget.style ||
         oldWidget.suffixSpan != widget.suffixSpan ||
         oldWidget.prefixSpan != widget.prefixSpan ||
+        oldWidget.overflow != widget.overflow ||
+        oldWidget.maxLines != widget.maxLines ||
         oldWidget.unicodeEmojiBuilder != widget.unicodeEmojiBuilder ||
         oldWidget.emojiBuilder != widget.emojiBuilder) {
       parsed = const MfmParser().parseSimple(widget.mfmText);
@@ -82,6 +88,8 @@ class SimpleMfmScope extends State<SimpleMfm> {
           ]),
           textScaler: MediaQuery.of(context).textScaler,
           style: widget.style,
+          maxLines: widget.maxLines,
+          overflow: widget.overflow,
         ),
       ),
     );
