@@ -61,10 +61,10 @@ packages:
     dependency: transitive
     description:
       name: dotted_border
-      sha256: "108837e11848ca776c53b30bc870086f84b62ed6e01c503ed976e8f8c7df9c04"
+      sha256: "99b091ec6891ba0c5331fdc2b502993c7c108f898995739a73c6845d71dad70c"
       url: "https://pub.dev"
     source: hosted
-    version: "2.1.0"
+    version: "3.1.0"
   equatable:
     dependency: transitive
     description:
@@ -201,15 +201,15 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "1.0.7+1"
+    version: "1.0.10"
   mfm_parser:
     dependency: transitive
     description:
       name: mfm_parser
-      sha256: ab52b5dfb5f5ebd54d9f1d8745a596a9fb7ba0e1b13e7d66984456f199143c09
+      sha256: e5e71bc5d2e67b28cc5b9196505db22e6597aab8b1868cdf937489a9958c0bcc
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.5"
+    version: "1.0.7"
   path:
     dependency: transitive
     description:
@@ -218,22 +218,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.9.1"
-  path_drawing:
-    dependency: transitive
-    description:
-      name: path_drawing
-      sha256: bbb1934c0cbb03091af082a6389ca2080345291ef07a5fa6d6e078ba8682f977
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.1"
-  path_parsing:
-    dependency: transitive
-    description:
-      name: path_parsing
-      sha256: "883402936929eac138ee0a45da5b0f2c80f89913e6dc3bf77eb65b84b409c6ca"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.1.0"
   sky_engine:
     dependency: transitive
     description: flutter
@@ -328,5 +312,5 @@ packages:
     source: hosted
     version: "1.1.1"
 sdks:
-  dart: ">=3.7.0-0 <4.0.0"
+  dart: ">=3.7.2 <4.0.0"
   flutter: ">=3.18.0-18.0.pre.54"
