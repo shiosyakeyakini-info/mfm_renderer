@@ -2,11 +2,15 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:mfm/src/extension/int_extension.dart';
-import 'package:vector_math/vector_math_64.dart';
 
 enum MfmFnSpinDirection { normal, reverse, alternate }
 
 enum MfmFnSpinType { x, y, both }
+
+/// 本家がspin.x / spin.yに適用しているperspectiveの距離(px)。
+/// https://github.com/misskey-dev/misskey packages/frontend/src/style.scss
+/// `transform: perspective(128px) rotateX(360deg);`
+const double _perspective = 128.0;
 
 class MfmFnSpin extends StatefulWidget {
   final Widget child;
@@ -111,15 +115,20 @@ class MfmFnSpinState extends State<MfmFnSpin> with TickerProviderStateMixin {
         child: widget.child,
         builder: (context, child) {
           final degree = animation.value * pi / 180;
-          final matrix4 = widget.type == MfmFnSpinType.x
+          final rotation = widget.type == MfmFnSpinType.x
               ? Matrix4.rotationX(degree)
               : widget.type == MfmFnSpinType.y
                   ? Matrix4.rotationY(degree)
                   : Matrix4.rotationZ(degree);
 
-          if (widget.type != MfmFnSpinType.both) {
-            matrix4.transform3(matrix4.perspectiveTransform(Vector3.all(128)));
-          }
+          // 本家と同じく、X軸・Y軸回転のときのみ透視投影をかける。
+          // Z軸回転(spin)は平面内の回転なので透視投影は適用しない。
+          // CSSの `perspective(d)` は行列の m34 に -1/d を設定するもので、
+          // `perspective(128px) rotateX(deg)` は 透視投影行列 * 回転行列 となる。
+          final matrix4 = widget.type == MfmFnSpinType.both
+              ? rotation
+              : (Matrix4.identity()..setEntry(3, 2, -1 / _perspective))
+                  .multiplied(rotation);
 
           return Transform(
             transform: matrix4,

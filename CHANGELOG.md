@@ -1,3 +1,10 @@
+## Unreleased
+
+- Fix `$[spin.x ]` / `$[spin.y ]` not applying the perspective projection. The
+  previous code called `Matrix4.perspectiveTransform()` / `Matrix4.transform3()`,
+  which only transform the passed `Vector3` and never modify the matrix itself,
+  so the resulting transform was a plain orthographic rotation.
+
 ## 1.0.10
 
 - Add `overflow` and `maxLines` options to `SimpleMfm`.
