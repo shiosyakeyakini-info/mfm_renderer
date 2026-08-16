@@ -1,4 +1,4 @@
-## Unreleased
+## 1.0.11
 
 - Fix `$[spin.x ]` / `$[spin.y ]` not applying the perspective projection. The
   previous code called `Matrix4.perspectiveTransform()` / `Matrix4.transform3()`,
