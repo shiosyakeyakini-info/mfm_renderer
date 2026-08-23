@@ -1,4 +1,4 @@
-## Unreleased
+## 1.0.11+1
 
 - Fix `$[rainbow ]` not matching Misskey. The color filter is now built from the
   same matrices CSS uses, so it reproduces
