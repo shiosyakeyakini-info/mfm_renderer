@@ -1,3 +1,14 @@
+## Unreleased
+
+- Fix `$[rainbow ]` not matching Misskey. The color filter is now built from the
+  same matrices CSS uses, so it reproduces
+  `hue-rotate(0deg -> 360deg) contrast(150%) saturate(150%)` exactly. Previously
+  the animation started half a turn out of phase (red rendered as cyan at 0%),
+  and `colorfilter_generator`'s own scaling turned `contrast(0.5)` /
+  `saturation(1.5)` into roughly `contrast(295%)` / `saturate(550%)`, which
+  clipped almost every color to a fully saturated primary.
+- Remove the `colorfilter_generator` dependency; it is no longer used.
+
 ## 1.0.11
 
 - Fix `$[spin.x ]` / `$[spin.y ]` not applying the perspective projection. The

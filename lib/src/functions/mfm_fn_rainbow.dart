@@ -1,7 +1,22 @@
-import 'package:colorfilter_generator/addons.dart';
-import 'package:colorfilter_generator/colorfilter_generator.dart';
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:mfm/src/extension/int_extension.dart';
+import 'package:mfm/src/functions/mfm_fn_color_matrix.dart';
+
+/// 本家 Misskey の `@keyframes mfm-rainbow` の定義。
+///
+/// ```css
+/// @keyframes mfm-rainbow {
+///   0%   { filter: hue-rotate(0deg)   contrast(150%) saturate(150%); }
+///   100% { filter: hue-rotate(360deg) contrast(150%) saturate(150%); }
+/// }
+/// ```
+///
+/// hue-rotate は 0deg から 360deg まで linear に変化し、
+/// contrast / saturate は常に 150% で固定されている。
+const double _rainbowContrast = 1.5;
+const double _rainbowSaturate = 1.5;
 
 class MfmRainbow extends StatefulWidget {
   final Widget child;
@@ -34,6 +49,7 @@ class MfmRainbowState extends State<MfmRainbow> with TickerProviderStateMixin {
     Future(() async {
       await Future.delayed(
           Duration(milliseconds: (widget.delay * 1000).toInt()));
+      if (!mounted) return;
       _controller.repeat();
     });
   }
@@ -49,6 +65,7 @@ class MfmRainbowState extends State<MfmRainbow> with TickerProviderStateMixin {
     Future(() async {
       await Future.delayed(
           Duration(milliseconds: (widget.delay * 1000).toInt()));
+      if (!mounted) return;
       _controller.repeat();
     });
   }
@@ -57,6 +74,19 @@ class MfmRainbowState extends State<MfmRainbow> with TickerProviderStateMixin {
   void dispose() {
     _controller.dispose();
     super.dispose();
+  }
+
+  /// [progress] (0.0...1.0) の時点での `mfm-rainbow` のカラーマトリクスを返す。
+  ///
+  /// CSS の `filter` は左に書かれたものから順に適用されるため、
+  /// hue-rotate → contrast → saturate の順に合成する。
+  @visibleForTesting
+  static List<double> colorMatrix(double progress) {
+    return CssColorMatrix.compose([
+      CssColorMatrix.hueRotate(progress * 2 * pi),
+      CssColorMatrix.contrast(_rainbowContrast),
+      CssColorMatrix.saturate(_rainbowSaturate),
+    ]);
   }
 
   @override
@@ -70,15 +100,8 @@ class MfmRainbowState extends State<MfmRainbow> with TickerProviderStateMixin {
         child: widget.child,
         builder: (context, child) {
           return ColorFiltered(
-              colorFilter: ColorFilter.matrix(ColorFilterGenerator(
-                name: "base",
-                filters: [
-                  ColorFilterAddons.hue(_controller.value * 2 - 1),
-                  ColorFilterAddons.contrast(0.5),
-                  ColorFilterAddons.saturation(1.5)
-                ],
-              ).matrix),
-              child: widget.child);
+              colorFilter: ColorFilter.matrix(colorMatrix(_controller.value)),
+              child: child);
         });
   }
 }

@@ -8,7 +8,6 @@ environment:
   flutter: ">=1.17.0"
 
 dependencies:
-  colorfilter_generator: ^0.0.8
   dotted_border: ^3.0.1
   flutter:
     sdk: flutter
