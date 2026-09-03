@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:mfm/src/extension/int_extension.dart';
+import 'package:vector_math/vector_math_64.dart' show Vector4;
 
 enum MfmFnSpinDirection { normal, reverse, alternate }
 
@@ -129,6 +130,15 @@ class MfmFnSpinState extends State<MfmFnSpin> with TickerProviderStateMixin {
               ? rotation
               : (Matrix4.identity()..setEntry(3, 2, -1 / _perspective))
                   .multiplied(rotation);
+
+          // CSSの`transform-style`は既定が`flat`で、入れ子になった要素は
+          // 内側の投影結果がいったん平面に潰されてから外側のtransformを受ける。
+          // Flutterの[Transform]は4x4をそのまま掛け合わせるので、何もしないと
+          // `preserve-3d`相当になり、`$[spin.y $[spin.y,left ]]`のような
+          // 入れ子で内と外の回転が3D空間で打ち消し合ってしまう。
+          // z成分を平面に落としておくと、掛け合わせても本家と同じ
+          // 「内側の見た目に外側がかかる」合成になる。
+          matrix4.setRow(2, Vector4(0, 0, 1, 0));
 
           return Transform(
             transform: matrix4,
