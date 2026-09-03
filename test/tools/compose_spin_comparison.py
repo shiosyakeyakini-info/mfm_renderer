@@ -13,7 +13,8 @@
     python3 test/tools/compose_spin_comparison.py \
       /tmp/spin/browser.png /tmp/spin/frames [/tmp/spin/frames_fixed]
 
-第3引数は任意。パッチを当てた状態で撮ったコマを渡すと3段目に並ぶ。
+第3引数は任意。2番目とは別の状態(修正前/修正後など)で撮ったコマを渡すと
+3段目に並ぶ。
 Pillowが要る (pip install pillow)。
 """
 
@@ -41,7 +42,7 @@ def main():
     browser_png, frame_dir = sys.argv[1], sys.argv[2]
     fixed_dir = sys.argv[3] if len(sys.argv) > 3 else None
 
-    rows = [("ブラウザ(本家CSS)", None), ("miria(現状)", frame_dir)]
+    rows = [("ブラウザ(本家CSS)", None), ("miria(修正前)", frame_dir)]
     if fixed_dir:
         rows.append(("miria(修正後)", fixed_dir))
 
