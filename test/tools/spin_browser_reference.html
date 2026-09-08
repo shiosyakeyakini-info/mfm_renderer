@@ -1,0 +1,67 @@
+<!--
+  ブラウザ側の $[spin] の見え方を、コマ送りで並べるだけのページ。
+  Misskey本家の keyframes (packages/frontend/src/style.scss) と
+  MkMfm.ts の `display: inline-block` をそのまま写している。
+  animation-play-state: paused と負のanimation-delayで位相を固定しているので、
+  スクリーンショットを撮ればそのままコマになる。
+
+    chromium --headless --hide-scrollbars --force-device-scale-factor=2 \
+      --window-size=800,520 --screenshot=browser.png \
+      test/tools/spin_browser_reference.html
+
+  撮ったPNGは compose_spin_comparison.py がFlutter側のコマと突き合わせる。
+-->
+<meta charset="utf-8">
+<style>
+@keyframes mfm-spinY {
+  0% { transform: perspective(128px) rotateY(0deg); }
+  100% { transform: perspective(128px) rotateY(360deg); }
+}
+body { background:#fff; font-family: sans-serif; margin:0; padding:12px; }
+table { border-collapse: collapse; }
+td, th { width:72px; height:72px; text-align:center; vertical-align:middle; border:1px solid #ddd; font-size:12px; color:#666; }
+td { font-size: 32px; color:#111; }
+.lbl { width:150px; text-align:right; padding-right:8px; font-size:12px; color:#666; }
+span.s { display:inline-block; animation: mfm-spinY 2s linear infinite; animation-play-state: paused; }
+</style>
+<script>
+const N = 8, PERIOD = 2.0;
+function mk(dir, delay) {
+  const s = document.createElement('span');
+  s.className = 's';
+  s.style.animationDirection = dir;
+  s.style.animationDelay = (-delay) + 's';
+  return s;
+}
+window.addEventListener('DOMContentLoaded', () => {
+  const rows = [
+    ['$[spin.y ★]', d => { const o = mk('normal', d); o.textContent = '★'; return o; }],
+    ['$[spin.y,left ★]', d => { const o = mk('reverse', d); o.textContent = '★'; return o; }],
+    ['$[spin.y $[spin.y,left ★]]', d => { const o = mk('normal', d); const i = mk('reverse', d); i.textContent = '★'; o.appendChild(i); return o; }],
+    ['$[spin.y $[spin.y ★]]', d => { const o = mk('normal', d); const i = mk('normal', d); i.textContent = '★'; o.appendChild(i); return o; }],
+  ];
+  const t = document.createElement('table');
+  const hr = document.createElement('tr');
+  hr.appendChild(document.createElement('th'));
+  for (let k = 0; k < N; k++) {
+    const th = document.createElement('th');
+    th.textContent = (100 * k / N) + '%';
+    hr.appendChild(th);
+  }
+  t.appendChild(hr);
+  for (const [label, f] of rows) {
+    const tr = document.createElement('tr');
+    const th = document.createElement('th');
+    th.className = 'lbl';
+    th.textContent = label;
+    tr.appendChild(th);
+    for (let k = 0; k < N; k++) {
+      const td = document.createElement('td');
+      td.appendChild(f(PERIOD * k / N));
+      tr.appendChild(td);
+    }
+    t.appendChild(tr);
+  }
+  document.body.appendChild(t);
+});
+</script>

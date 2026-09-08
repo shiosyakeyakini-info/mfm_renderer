@@ -1,3 +1,14 @@
+## 1.0.11+2
+
+- Fix nested `$[spin ]` not matching Misskey. CSS defaults to
+  `transform-style: flat`, so a nested element is flattened to a plane before
+  its parent's transform applies, and the perspective is re-applied at each
+  level. Flutter's `Transform` simply multiplies the 4x4 matrices, which is
+  `preserve-3d` behaviour: `$[spin.y $[spin.y,left ]]` cancelled itself out and
+  did not move at all, and `$[spin.y $[spin.y ]]` spun at double speed. The spin
+  matrix now keeps its result on the z=0 plane, so composing it reproduces the
+  browser's `cos^2` squash.
+
 ## 1.0.11+1
 
 - Fix `$[rainbow ]` not matching Misskey. The color filter is now built from the

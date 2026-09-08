@@ -79,6 +79,91 @@ void main() {
     }
   });
 
+  testWidgets('spin.x / spin.y の行列は z を平面に落とす', (tester) async {
+    // CSSの transform-style は既定が flat なので、入れ子の内側は
+    // いったん平面に潰されてから外側の transform を受ける。
+    // 行列を素直に掛け合わせるFlutterでそれに合わせるには、
+    // z成分を平面に落としておく必要がある。
+    for (final type in [MfmFnSpinType.x, MfmFnSpinType.y]) {
+      await tester.pumpWidget(
+        Directionality(
+          textDirection: TextDirection.ltr,
+          child: Center(
+            child: MfmFnSpin(
+              direction: MfmFnSpinDirection.normal,
+              type: type,
+              speed: 2,
+              delay: 0,
+              child: const Text("★"),
+            ),
+          ),
+        ),
+      );
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 1));
+      // 1周2秒のうち1/8、つまり45度あたりまで進める。
+      await tester.pump(const Duration(milliseconds: 250));
+
+      final matrix = findSpinMatrix(tester);
+      // spin.x なら縦、spin.y なら横が縮んでいるはず。
+      // 潰れていない = 回っていないので、以下の検査に意味がなくなる。
+      final scale =
+          type == MfmFnSpinType.x ? matrix.entry(1, 1) : matrix.entry(0, 0);
+      expect(scale.abs(), lessThan(0.9), reason: "$type がそもそも回っていない");
+      expect(matrix.entry(2, 0), 0.0, reason: "$type");
+      expect(matrix.entry(2, 1), 0.0, reason: "$type");
+      expect(matrix.entry(2, 2), 1.0, reason: "$type");
+      expect(matrix.entry(2, 3), 0.0, reason: "$type");
+    }
+  });
+
+  testWidgets('入れ子のspinは、内と外の縮みが掛け算になる', (tester) async {
+    await tester.pumpWidget(
+      const Directionality(
+        textDirection: TextDirection.ltr,
+        child: Center(
+          child: MfmFnSpin(
+            direction: MfmFnSpinDirection.normal,
+            type: MfmFnSpinType.y,
+            speed: 2,
+            delay: 0,
+            child: MfmFnSpin(
+              direction: MfmFnSpinDirection.reverse,
+              type: MfmFnSpinType.y,
+              speed: 2,
+              delay: 0,
+              child: Text("★"),
+            ),
+          ),
+        ),
+      ),
+    );
+    await tester.pump();
+    // 外側がAnimationControllerを用意してsetStateすると内側が作り直され、
+    // 内側のAnimationControllerはさらに1フレームあとに立ち上がる。
+    await tester.pump(const Duration(milliseconds: 1));
+    await tester.pump(const Duration(milliseconds: 1));
+    // 1周2秒のうち1/8、つまり45度あたりまで進める。
+    await tester.pump(const Duration(milliseconds: 250));
+
+    final matrices = tester
+        .widgetList<Transform>(find.byType(Transform))
+        .map((e) => e.transform)
+        .toList();
+    expect(matrices.length, 2);
+
+    final composed = matrices[0].multiplied(matrices[1]);
+    // 本家(transform-style: flat)では内側の投影結果に外側がかかるので、
+    // 横方向の縮みは内と外の積になる。行列を素直に掛けるだけだと
+    // 逆回しの入れ子が3D空間で打ち消し合い、m00が1に戻ってしまう。
+    expect(composed.entry(0, 0),
+        closeTo(matrices[0].entry(0, 0) * matrices[1].entry(0, 0), 1e-9));
+    expect(composed.entry(0, 0).abs(), lessThan(0.9),
+        reason: "45度あたりでは cos^2 まで潰れているはず");
+    // 潰した結果もまた平面に載っていること。
+    expect(composed.entry(2, 2), 1.0);
+  });
+
   testWidgets('spin(Z軸)は透視投影を適用しない', (tester) async {
     await pumpSpin(tester, MfmFnSpinType.both);
 
